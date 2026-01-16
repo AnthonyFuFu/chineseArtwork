@@ -37,6 +37,8 @@ public partial class Artwork
 
     public virtual Artist Art { get; set; } = null!;
 
+    public virtual ICollection<ArtworkPic> ArtworkPics { get; set; } = new List<ArtworkPic>();
+
     public virtual Category Cat { get; set; } = null!;
 
     public virtual Style Style { get; set; } = null!;

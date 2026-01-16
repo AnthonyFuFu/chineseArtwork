@@ -19,9 +19,21 @@ public partial class ChineseArtworkContext : DbContext
 
     public virtual DbSet<Artwork> Artworks { get; set; }
 
+    public virtual DbSet<ArtworkPic> ArtworkPics { get; set; }
+
     public virtual DbSet<Category> Categories { get; set; }
 
+    public virtual DbSet<Dictionary> Dictionaries { get; set; }
+
+    public virtual DbSet<DictionaryPic> DictionaryPics { get; set; }
+
     public virtual DbSet<Member> Members { get; set; }
+
+    public virtual DbSet<Radical> Radicals { get; set; }
+
+    public virtual DbSet<RadicalPic> RadicalPics { get; set; }
+
+    public virtual DbSet<ScriptStyle> ScriptStyles { get; set; }
 
     public virtual DbSet<Style> Styles { get; set; }
 
@@ -32,7 +44,7 @@ public partial class ChineseArtworkContext : DbContext
     {
         modelBuilder.Entity<Artist>(entity =>
         {
-            entity.HasKey(e => e.ArtId).HasName("PK__artist__FCD631072ED5B92D");
+            entity.HasKey(e => e.ArtId).HasName("PK__artist__FCD63107B8F1972C");
 
             entity.ToTable("artist");
 
@@ -88,7 +100,7 @@ public partial class ChineseArtworkContext : DbContext
 
         modelBuilder.Entity<Artwork>(entity =>
         {
-            entity.HasKey(e => e.AwId).HasName("PK__artwork__64D812B243B5B400");
+            entity.HasKey(e => e.AwId).HasName("PK__artwork__64D812B2D2A6D2ED");
 
             entity.ToTable("artwork");
 
@@ -133,22 +145,45 @@ public partial class ChineseArtworkContext : DbContext
             entity.HasOne(d => d.Art).WithMany(p => p.Artworks)
                 .HasForeignKey(d => d.ArtId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_ARTWORK_ARTIST");
+                .HasConstraintName("artwork_artist_fk");
 
             entity.HasOne(d => d.Cat).WithMany(p => p.Artworks)
                 .HasForeignKey(d => d.CatId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_ARTWORK_CATEGORY");
+                .HasConstraintName("artwork_category_fk");
 
             entity.HasOne(d => d.Style).WithMany(p => p.Artworks)
                 .HasForeignKey(d => d.StyleId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_ARTWORK_STYLE");
+                .HasConstraintName("artwork_style_fk");
+        });
+
+        modelBuilder.Entity<ArtworkPic>(entity =>
+        {
+            entity.HasKey(e => e.AwPicId).HasName("PK__artwork___02B3E5F8A303946C");
+
+            entity.ToTable("artwork_pic");
+
+            entity.Property(e => e.AwPicId).HasColumnName("AW_PIC_ID");
+            entity.Property(e => e.AwId).HasColumnName("AW_ID");
+            entity.Property(e => e.AwImage)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("AW_IMAGE");
+            entity.Property(e => e.AwPicSort).HasColumnName("AW_PIC_SORT");
+            entity.Property(e => e.AwPicture)
+                .HasMaxLength(300)
+                .IsUnicode(false)
+                .HasColumnName("AW_PICTURE");
+
+            entity.HasOne(d => d.Aw).WithMany(p => p.ArtworkPics)
+                .HasForeignKey(d => d.AwId)
+                .HasConstraintName("artwork_pic_artwork_fk");
         });
 
         modelBuilder.Entity<Category>(entity =>
         {
-            entity.HasKey(e => e.CatId).HasName("PK__category__5F8323A887752BE4");
+            entity.HasKey(e => e.CatId).HasName("PK__category__5F8323A8D2114C59");
 
             entity.ToTable("category");
 
@@ -164,9 +199,77 @@ public partial class ChineseArtworkContext : DbContext
                 .HasColumnName("CAT_STATUS");
         });
 
+        modelBuilder.Entity<Dictionary>(entity =>
+        {
+            entity.HasKey(e => e.DictId).HasName("PK__dictiona__CB0CC840EE1B93D9");
+
+            entity.ToTable("dictionary");
+
+            entity.HasIndex(e => e.RadicalId, "idx_dictionary_radical_id");
+
+            entity.HasIndex(e => e.ScriptId, "idx_dictionary_script_id");
+
+            entity.Property(e => e.DictId).HasColumnName("DICT_ID");
+            entity.Property(e => e.DictCreateTime)
+                .HasPrecision(3)
+                .HasDefaultValueSql("(sysdatetime())")
+                .HasColumnName("DICT_CREATE_TIME");
+            entity.Property(e => e.DictDescription)
+                .HasMaxLength(500)
+                .HasColumnName("DICT_DESCRIPTION");
+            entity.Property(e => e.DictIsDel).HasColumnName("DICT_IS_DEL");
+            entity.Property(e => e.DictStatus)
+                .HasDefaultValue(1)
+                .HasColumnName("DICT_STATUS");
+            entity.Property(e => e.DictStrokes).HasColumnName("DICT_STROKES");
+            entity.Property(e => e.DictUpdateTime)
+                .HasPrecision(3)
+                .HasDefaultValueSql("(sysdatetime())")
+                .HasColumnName("DICT_UPDATE_TIME");
+            entity.Property(e => e.DictWord)
+                .HasMaxLength(100)
+                .HasColumnName("DICT_WORD");
+            entity.Property(e => e.RadicalId).HasColumnName("RADICAL_ID");
+            entity.Property(e => e.ScriptId).HasColumnName("SCRIPT_ID");
+
+            entity.HasOne(d => d.Radical).WithMany(p => p.Dictionaries)
+                .HasForeignKey(d => d.RadicalId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("dictionary_radical_fk");
+
+            entity.HasOne(d => d.Script).WithMany(p => p.Dictionaries)
+                .HasForeignKey(d => d.ScriptId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("dictionary_script_style_fk");
+        });
+
+        modelBuilder.Entity<DictionaryPic>(entity =>
+        {
+            entity.HasKey(e => e.DictPicId).HasName("PK__dictiona__1E22D66A1EA9507E");
+
+            entity.ToTable("dictionary_pic");
+
+            entity.HasIndex(e => e.DictId, "idx_dictionary_pic_dict_id");
+
+            entity.Property(e => e.DictPicId).HasColumnName("DICT_PIC_ID");
+            entity.Property(e => e.DictId).HasColumnName("DICT_ID");
+            entity.Property(e => e.DictImage)
+                .HasMaxLength(100)
+                .HasColumnName("DICT_IMAGE");
+            entity.Property(e => e.DictPicSort).HasColumnName("DICT_PIC_SORT");
+            entity.Property(e => e.DictPicture)
+                .HasMaxLength(300)
+                .HasColumnName("DICT_PICTURE");
+
+            entity.HasOne(d => d.Dict).WithMany(p => p.DictionaryPics)
+                .HasForeignKey(d => d.DictId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("dictionary_pic_dictionary_fk");
+        });
+
         modelBuilder.Entity<Member>(entity =>
         {
-            entity.HasKey(e => e.MemId).HasName("PK__member__1B42917C7B91C0BB");
+            entity.HasKey(e => e.MemId).HasName("PK__member__1B42917C3429BA66");
 
             entity.ToTable("member");
 
@@ -225,9 +328,61 @@ public partial class ChineseArtworkContext : DbContext
                 .HasColumnName("MEM_VERIFICATION_STATUS");
         });
 
+        modelBuilder.Entity<Radical>(entity =>
+        {
+            entity.HasKey(e => e.RadicalId).HasName("PK__radical__901454229381F345");
+
+            entity.ToTable("radical");
+
+            entity.Property(e => e.RadicalId).HasColumnName("RADICAL_ID");
+            entity.Property(e => e.RadicalStrokes).HasColumnName("RADICAL_STROKES");
+            entity.Property(e => e.RadicalWord)
+                .HasMaxLength(100)
+                .HasColumnName("RADICAL_WORD");
+        });
+
+        modelBuilder.Entity<RadicalPic>(entity =>
+        {
+            entity.HasKey(e => e.RadicalPicId).HasName("PK__radical___45A6F3BBE5024C97");
+
+            entity.ToTable("radical_pic");
+
+            entity.HasIndex(e => e.RadicalId, "idx_radical_pic_radical_id");
+
+            entity.Property(e => e.RadicalPicId).HasColumnName("RADICAL_PIC_ID");
+            entity.Property(e => e.RadicalId).HasColumnName("RADICAL_ID");
+            entity.Property(e => e.RadicalImage)
+                .HasMaxLength(100)
+                .HasColumnName("RADICAL_IMAGE");
+            entity.Property(e => e.RadicalPicSort).HasColumnName("RADICAL_PIC_SORT");
+            entity.Property(e => e.RadicalPicture)
+                .HasMaxLength(300)
+                .HasColumnName("RADICAL_PICTURE");
+
+            entity.HasOne(d => d.Radical).WithMany(p => p.RadicalPics)
+                .HasForeignKey(d => d.RadicalId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("radical_pic_radical_fk");
+        });
+
+        modelBuilder.Entity<ScriptStyle>(entity =>
+        {
+            entity.HasKey(e => e.ScriptId).HasName("PK__script_s__13A8E1F30B268430");
+
+            entity.ToTable("script_style");
+
+            entity.Property(e => e.ScriptId).HasColumnName("SCRIPT_ID");
+            entity.Property(e => e.ScriptDescription)
+                .HasMaxLength(500)
+                .HasColumnName("SCRIPT_DESCRIPTION");
+            entity.Property(e => e.ScriptWord)
+                .HasMaxLength(100)
+                .HasColumnName("SCRIPT_WORD");
+        });
+
         modelBuilder.Entity<Style>(entity =>
         {
-            entity.HasKey(e => e.StyleId).HasName("PK__style__056BC21C639DE933");
+            entity.HasKey(e => e.StyleId).HasName("PK__style__056BC21C5BEEC261");
 
             entity.ToTable("style");
 
