@@ -7,3 +7,17 @@ Scaffold-DbContext "Server=localhost;Database=chinese_artwork;Trusted_Connection
 
 // DB First DB設定寫在appsettings、Program
 Scaffold-DbContext "Name=ConnectionStrings:ChineseArtwork" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -Force
+
+
+
+
+,
+  "AllowedHosts": "*",
+  "ConnectionStrings": {
+    "ChineseArtwork": "Server=localhost;Database=chinese_artwork;Trusted_Connection=True;TrustServerCertificate=True"
+  }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        => optionsBuilder.UseSqlServer("Name=ConnectionStrings:ChineseArtwork");
+
+
