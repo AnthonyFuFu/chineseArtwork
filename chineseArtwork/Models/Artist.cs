@@ -13,11 +13,11 @@ public partial class Artist
 
     public string? ArtGender { get; set; }
 
-    public string ArtGivenName { get; set; } = null!;
+    public string? ArtGivenName { get; set; }
 
-    public string ArtCourtesyName { get; set; } = null!;
+    public string? ArtCourtesyName { get; set; }
 
-    public string ArtPseudonymName { get; set; } = null!;
+    public string? ArtPseudonymName { get; set; }
 
     public DateOnly? ArtBirthday { get; set; }
 
@@ -34,4 +34,6 @@ public partial class Artist
     public int ArtStatus { get; set; }
 
     public virtual ICollection<Artwork> Artworks { get; set; } = new List<Artwork>();
+
+    public virtual ICollection<Authority> Authorities { get; set; } = new List<Authority>();
 }

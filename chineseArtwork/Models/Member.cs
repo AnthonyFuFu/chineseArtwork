@@ -27,9 +27,9 @@ public partial class Member
 
     public string? MemImage { get; set; }
 
-    public int? MemStatus { get; set; }
+    public int MemStatus { get; set; }
 
-    public int? MemVerificationStatus { get; set; }
+    public int MemVerificationStatus { get; set; }
 
     public string? MemVerificationCode { get; set; }
 

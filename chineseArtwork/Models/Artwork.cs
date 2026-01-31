@@ -19,9 +19,9 @@ public partial class Artwork
 
     public decimal AwPrice { get; set; }
 
-    public DateTime AwCreated { get; set; }
+    public DateTime? AwCreated { get; set; }
 
-    public string AwDimension { get; set; } = null!;
+    public string? AwDimension { get; set; }
 
     public int AwIsForSale { get; set; }
 

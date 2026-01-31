@@ -21,19 +21,33 @@ public partial class ChineseArtworkContext : DbContext
 
     public virtual DbSet<ArtworkPic> ArtworkPics { get; set; }
 
+    public virtual DbSet<Author> Authors { get; set; }
+
+    public virtual DbSet<Authority> Authorities { get; set; }
+
     public virtual DbSet<Category> Categories { get; set; }
 
     public virtual DbSet<Dictionary> Dictionaries { get; set; }
 
     public virtual DbSet<DictionaryPic> DictionaryPics { get; set; }
 
+    public virtual DbSet<Dynasty> Dynasties { get; set; }
+
+    public virtual DbSet<FamousArtist> FamousArtists { get; set; }
+
+    public virtual DbSet<FamousArtwork> FamousArtworks { get; set; }
+
+    public virtual DbSet<FamousArtworkPic> FamousArtworkPics { get; set; }
+
+    public virtual DbSet<Function> Functions { get; set; }
+
     public virtual DbSet<Member> Members { get; set; }
+
+    public virtual DbSet<Poetry> Poetries { get; set; }
 
     public virtual DbSet<Radical> Radicals { get; set; }
 
     public virtual DbSet<RadicalPic> RadicalPics { get; set; }
-
-    public virtual DbSet<ScriptStyle> ScriptStyles { get; set; }
 
     public virtual DbSet<Style> Styles { get; set; }
 
@@ -44,11 +58,15 @@ public partial class ChineseArtworkContext : DbContext
     {
         modelBuilder.Entity<Artist>(entity =>
         {
-            entity.HasKey(e => e.ArtId).HasName("PK__artist__FCD63107B8F1972C");
+            entity.HasKey(e => e.ArtId).HasName("PK__artist__FCD631071D017009");
 
             entity.ToTable("artist");
 
             entity.HasIndex(e => e.ArtAccount, "UQ_ART_ACCOUNT").IsUnique();
+
+            entity.HasIndex(e => e.ArtAccount, "idx_artist_account");
+
+            entity.HasIndex(e => e.ArtPhone, "idx_artist_phone");
 
             entity.Property(e => e.ArtId).HasColumnName("ART_ID");
             entity.Property(e => e.ArtAccount)
@@ -100,9 +118,15 @@ public partial class ChineseArtworkContext : DbContext
 
         modelBuilder.Entity<Artwork>(entity =>
         {
-            entity.HasKey(e => e.AwId).HasName("PK__artwork__64D812B2D2A6D2ED");
+            entity.HasKey(e => e.AwId).HasName("PK__artwork__64D812B2A4C823F3");
 
             entity.ToTable("artwork");
+
+            entity.HasIndex(e => e.ArtId, "idx_artwork_artist_id");
+
+            entity.HasIndex(e => e.CatId, "idx_artwork_category_id");
+
+            entity.HasIndex(e => e.StyleId, "idx_artwork_style_id");
 
             entity.Property(e => e.AwId).HasColumnName("AW_ID");
             entity.Property(e => e.ArtId).HasColumnName("ART_ID");
@@ -117,7 +141,7 @@ public partial class ChineseArtworkContext : DbContext
                 .HasMaxLength(500)
                 .HasColumnName("AW_DESCRIPTION");
             entity.Property(e => e.AwDimension)
-                .HasMaxLength(50)
+                .HasMaxLength(100)
                 .HasColumnName("AW_DIMENSION");
             entity.Property(e => e.AwIsDel).HasColumnName("AW_IS_DEL");
             entity.Property(e => e.AwIsForSale)
@@ -160,7 +184,7 @@ public partial class ChineseArtworkContext : DbContext
 
         modelBuilder.Entity<ArtworkPic>(entity =>
         {
-            entity.HasKey(e => e.AwPicId).HasName("PK__artwork___02B3E5F8A303946C");
+            entity.HasKey(e => e.AwPicId).HasName("PK__artwork___02B3E5F80CD209D8");
 
             entity.ToTable("artwork_pic");
 
@@ -181,9 +205,64 @@ public partial class ChineseArtworkContext : DbContext
                 .HasConstraintName("artwork_pic_artwork_fk");
         });
 
+        modelBuilder.Entity<Author>(entity =>
+        {
+            entity.HasKey(e => e.AuthorId).HasName("PK__author__A83981458ACD8DA9");
+
+            entity.ToTable("author");
+
+            entity.HasIndex(e => e.DynastyId, "idx_author_dynasty_id");
+
+            entity.Property(e => e.AuthorId).HasColumnName("AUTHOR_ID");
+            entity.Property(e => e.AuthorCourtesyName)
+                .HasMaxLength(50)
+                .HasColumnName("AUTHOR_COURTESY_NAME");
+            entity.Property(e => e.AuthorDescription)
+                .HasMaxLength(1000)
+                .HasColumnName("AUTHOR_DESCRIPTION");
+            entity.Property(e => e.AuthorGivenName)
+                .HasMaxLength(50)
+                .HasColumnName("AUTHOR_GIVEN_NAME");
+            entity.Property(e => e.AuthorName)
+                .HasMaxLength(100)
+                .HasColumnName("AUTHOR_NAME");
+            entity.Property(e => e.AuthorPseudonymName)
+                .HasMaxLength(50)
+                .HasColumnName("AUTHOR_PSEUDONYM_NAME");
+            entity.Property(e => e.DynastyId).HasColumnName("DYNASTY_ID");
+
+            entity.HasOne(d => d.Dynasty).WithMany(p => p.Authors)
+                .HasForeignKey(d => d.DynastyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("author_dynasty_fk");
+        });
+
+        modelBuilder.Entity<Authority>(entity =>
+        {
+            entity.HasKey(e => new { e.ArtId, e.FuncId }).HasName("PK_authority_ART_ID_FUNC_ID");
+
+            entity.ToTable("authority");
+
+            entity.Property(e => e.ArtId).HasColumnName("ART_ID");
+            entity.Property(e => e.FuncId).HasColumnName("FUNC_ID");
+            entity.Property(e => e.AuthStatus)
+                .HasDefaultValue(1)
+                .HasColumnName("AUTH_STATUS");
+
+            entity.HasOne(d => d.Art).WithMany(p => p.Authorities)
+                .HasForeignKey(d => d.ArtId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("authority_artist_FK");
+
+            entity.HasOne(d => d.Func).WithMany(p => p.Authorities)
+                .HasForeignKey(d => d.FuncId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("authority_function_FK");
+        });
+
         modelBuilder.Entity<Category>(entity =>
         {
-            entity.HasKey(e => e.CatId).HasName("PK__category__5F8323A8D2114C59");
+            entity.HasKey(e => e.CatId).HasName("PK__category__5F8323A8AB29006B");
 
             entity.ToTable("category");
 
@@ -201,13 +280,11 @@ public partial class ChineseArtworkContext : DbContext
 
         modelBuilder.Entity<Dictionary>(entity =>
         {
-            entity.HasKey(e => e.DictId).HasName("PK__dictiona__CB0CC840EE1B93D9");
+            entity.HasKey(e => e.DictId).HasName("PK__dictiona__CB0CC840C0525349");
 
             entity.ToTable("dictionary");
 
             entity.HasIndex(e => e.RadicalId, "idx_dictionary_radical_id");
-
-            entity.HasIndex(e => e.ScriptId, "idx_dictionary_script_id");
 
             entity.Property(e => e.DictId).HasColumnName("DICT_ID");
             entity.Property(e => e.DictCreateTime)
@@ -227,25 +304,19 @@ public partial class ChineseArtworkContext : DbContext
                 .HasDefaultValueSql("(sysdatetime())")
                 .HasColumnName("DICT_UPDATE_TIME");
             entity.Property(e => e.DictWord)
-                .HasMaxLength(100)
+                .HasMaxLength(20)
                 .HasColumnName("DICT_WORD");
             entity.Property(e => e.RadicalId).HasColumnName("RADICAL_ID");
-            entity.Property(e => e.ScriptId).HasColumnName("SCRIPT_ID");
 
             entity.HasOne(d => d.Radical).WithMany(p => p.Dictionaries)
                 .HasForeignKey(d => d.RadicalId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("dictionary_radical_fk");
-
-            entity.HasOne(d => d.Script).WithMany(p => p.Dictionaries)
-                .HasForeignKey(d => d.ScriptId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("dictionary_script_style_fk");
         });
 
         modelBuilder.Entity<DictionaryPic>(entity =>
         {
-            entity.HasKey(e => e.DictPicId).HasName("PK__dictiona__1E22D66A1EA9507E");
+            entity.HasKey(e => e.DictPicId).HasName("PK__dictiona__1E22D66A2A58FA1F");
 
             entity.ToTable("dictionary_pic");
 
@@ -260,20 +331,179 @@ public partial class ChineseArtworkContext : DbContext
             entity.Property(e => e.DictPicture)
                 .HasMaxLength(300)
                 .HasColumnName("DICT_PICTURE");
+            entity.Property(e => e.StyleId).HasColumnName("STYLE_ID");
 
             entity.HasOne(d => d.Dict).WithMany(p => p.DictionaryPics)
                 .HasForeignKey(d => d.DictId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("dictionary_pic_dictionary_fk");
+
+            entity.HasOne(d => d.Style).WithMany(p => p.DictionaryPics)
+                .HasForeignKey(d => d.StyleId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("dictionary_pic_style_fk");
+        });
+
+        modelBuilder.Entity<Dynasty>(entity =>
+        {
+            entity.HasKey(e => e.DynastyId).HasName("PK__dynasty__FD51825532C835E0");
+
+            entity.ToTable("dynasty");
+
+            entity.Property(e => e.DynastyId).HasColumnName("DYNASTY_ID");
+            entity.Property(e => e.DynastyDescription)
+                .HasMaxLength(500)
+                .HasColumnName("DYNASTY_DESCRIPTION");
+            entity.Property(e => e.DynastyName)
+                .HasMaxLength(50)
+                .HasColumnName("DYNASTY_NAME");
+        });
+
+        modelBuilder.Entity<FamousArtist>(entity =>
+        {
+            entity.HasKey(e => e.FmsArtId).HasName("PK__famous_a__ACBD812DFA4B4C90");
+
+            entity.ToTable("famous_artist");
+
+            entity.Property(e => e.FmsArtId).HasColumnName("FMS_ART_ID");
+            entity.Property(e => e.FmsArtCourtesyName)
+                .HasMaxLength(10)
+                .HasColumnName("FMS_ART_COURTESY_NAME");
+            entity.Property(e => e.FmsArtDescription)
+                .HasMaxLength(500)
+                .HasColumnName("FMS_ART_DESCRIPTION");
+            entity.Property(e => e.FmsArtGender)
+                .HasMaxLength(1)
+                .IsUnicode(false)
+                .IsFixedLength()
+                .HasColumnName("FMS_ART_GENDER");
+            entity.Property(e => e.FmsArtGivenName)
+                .HasMaxLength(10)
+                .HasColumnName("FMS_ART_GIVEN_NAME");
+            entity.Property(e => e.FmsArtImage)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("FMS_ART_IMAGE");
+            entity.Property(e => e.FmsArtName)
+                .HasMaxLength(20)
+                .HasColumnName("FMS_ART_NAME");
+            entity.Property(e => e.FmsArtPicture)
+                .HasMaxLength(300)
+                .IsUnicode(false)
+                .HasColumnName("FMS_ART_PICTURE");
+            entity.Property(e => e.FmsArtPseudonymName)
+                .HasMaxLength(10)
+                .HasColumnName("FMS_ART_PSEUDONYM_NAME");
+        });
+
+        modelBuilder.Entity<FamousArtwork>(entity =>
+        {
+            entity.HasKey(e => e.FmsAwId).HasName("PK__famous_a__1F642E32982B3B97");
+
+            entity.ToTable("famous_artwork");
+
+            entity.HasIndex(e => e.FmsArtId, "idx_famous_artwork_famous_artist_id");
+
+            entity.HasIndex(e => e.FmsAwStatus, "idx_famous_artwork_status");
+
+            entity.Property(e => e.FmsAwId).HasColumnName("FMS_AW_ID");
+            entity.Property(e => e.CatId).HasColumnName("CAT_ID");
+            entity.Property(e => e.FmsArtId).HasColumnName("FMS_ART_ID");
+            entity.Property(e => e.FmsAwCreateTime)
+                .HasPrecision(3)
+                .HasDefaultValueSql("(sysdatetime())")
+                .HasColumnName("FMS_AW_CREATE_TIME");
+            entity.Property(e => e.FmsAwDimension)
+                .HasMaxLength(100)
+                .HasColumnName("FMS_AW_DIMENSION");
+            entity.Property(e => e.FmsAwStatus)
+                .HasDefaultValue(1)
+                .HasColumnName("FMS_AW_STATUS");
+            entity.Property(e => e.FmsAwTitle)
+                .HasMaxLength(100)
+                .HasColumnName("FMS_AW_TITLE");
+            entity.Property(e => e.FmsAwUpdateTime)
+                .HasPrecision(3)
+                .HasDefaultValueSql("(sysdatetime())")
+                .HasColumnName("FMS_AW_UPDATE_TIME");
+            entity.Property(e => e.StyleId).HasColumnName("STYLE_ID");
+
+            entity.HasOne(d => d.Cat).WithMany(p => p.FamousArtworks)
+                .HasForeignKey(d => d.CatId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("famous_artwork_category_fk");
+
+            entity.HasOne(d => d.FmsArt).WithMany(p => p.FamousArtworks)
+                .HasForeignKey(d => d.FmsArtId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("famous_artwork_famous_artist_fk");
+
+            entity.HasOne(d => d.Style).WithMany(p => p.FamousArtworks)
+                .HasForeignKey(d => d.StyleId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("famous_artwork_style_fk");
+        });
+
+        modelBuilder.Entity<FamousArtworkPic>(entity =>
+        {
+            entity.HasKey(e => e.FmsAwPicId).HasName("PK__famous_a__3F0738678431264B");
+
+            entity.ToTable("famous_artwork_pic");
+
+            entity.Property(e => e.FmsAwPicId).HasColumnName("FMS_AW_PIC_ID");
+            entity.Property(e => e.FmsAwId).HasColumnName("FMS_AW_ID");
+            entity.Property(e => e.FmsAwImage)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("FMS_AW_IMAGE");
+            entity.Property(e => e.FmsAwPicSort).HasColumnName("FMS_AW_PIC_SORT");
+            entity.Property(e => e.FmsAwPicture)
+                .HasMaxLength(300)
+                .IsUnicode(false)
+                .HasColumnName("FMS_AW_PICTURE");
+
+            entity.HasOne(d => d.FmsAw).WithMany(p => p.FamousArtworkPics)
+                .HasForeignKey(d => d.FmsAwId)
+                .HasConstraintName("famous_artwork_pic_famous_artwork_fk");
+        });
+
+        modelBuilder.Entity<Function>(entity =>
+        {
+            entity.HasKey(e => e.FuncId).HasName("PK__function__68DC7426E91001B9");
+
+            entity.ToTable("function");
+
+            entity.Property(e => e.FuncId).HasColumnName("FUNC_ID");
+            entity.Property(e => e.FuncIcon)
+                .HasMaxLength(50)
+                .HasDefaultValueSql("((1))")
+                .HasColumnName("FUNC_ICON");
+            entity.Property(e => e.FuncLayer)
+                .HasMaxLength(5)
+                .HasColumnName("FUNC_LAYER");
+            entity.Property(e => e.FuncLink)
+                .HasMaxLength(100)
+                .HasColumnName("FUNC_LINK");
+            entity.Property(e => e.FuncName)
+                .HasMaxLength(20)
+                .HasColumnName("FUNC_NAME");
+            entity.Property(e => e.FuncParentId)
+                .HasMaxLength(5)
+                .HasColumnName("FUNC_PARENT_ID");
+            entity.Property(e => e.FuncStatus)
+                .HasDefaultValue(1)
+                .HasColumnName("FUNC_STATUS");
         });
 
         modelBuilder.Entity<Member>(entity =>
         {
-            entity.HasKey(e => e.MemId).HasName("PK__member__1B42917C3429BA66");
+            entity.HasKey(e => e.MemId).HasName("PK__member__1B42917C713EC819");
 
             entity.ToTable("member");
 
             entity.HasIndex(e => e.MemAccount, "UQ_MEMBER_ACCOUNT").IsUnique();
+
+            entity.HasIndex(e => e.MemAccount, "idx_member_account");
 
             entity.Property(e => e.MemId).HasColumnName("MEM_ID");
             entity.Property(e => e.MemAccount)
@@ -323,14 +553,53 @@ public partial class ChineseArtworkContext : DbContext
                 .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasColumnName("MEM_VERIFICATION_CODE");
-            entity.Property(e => e.MemVerificationStatus)
-                .HasDefaultValue(1)
-                .HasColumnName("MEM_VERIFICATION_STATUS");
+            entity.Property(e => e.MemVerificationStatus).HasColumnName("MEM_VERIFICATION_STATUS");
+        });
+
+        modelBuilder.Entity<Poetry>(entity =>
+        {
+            entity.HasKey(e => e.PoetryId).HasName("PK__poetry__0575DE22E6178890");
+
+            entity.ToTable("poetry");
+
+            entity.HasIndex(e => e.PoetryAddedBy, "idx_poetry_added_by");
+
+            entity.HasIndex(e => e.AuthorId, "idx_poetry_author_id");
+
+            entity.Property(e => e.PoetryId).HasColumnName("POETRY_ID");
+            entity.Property(e => e.AuthorId).HasColumnName("AUTHOR_ID");
+            entity.Property(e => e.PoetryAddedBy)
+                .HasMaxLength(100)
+                .HasColumnName("POETRY_ADDED_BY");
+            entity.Property(e => e.PoetryAnalysis)
+                .HasColumnType("ntext")
+                .HasColumnName("POETRY_ANALYSIS");
+            entity.Property(e => e.PoetryCategory)
+                .HasMaxLength(100)
+                .HasColumnName("POETRY_CATEGORY");
+            entity.Property(e => e.PoetryContent)
+                .HasColumnType("ntext")
+                .HasColumnName("POETRY_CONTENT");
+            entity.Property(e => e.PoetryKeywords)
+                .HasMaxLength(500)
+                .HasColumnName("POETRY_KEYWORDS");
+            entity.Property(e => e.PoetryTitle)
+                .HasMaxLength(255)
+                .HasColumnName("POETRY_TITLE");
+            entity.Property(e => e.PoetryTranslation)
+                .HasColumnType("ntext")
+                .HasColumnName("POETRY_TRANSLATION");
+            entity.Property(e => e.PoetryWordCount).HasColumnName("POETRY_WORD_COUNT");
+
+            entity.HasOne(d => d.Author).WithMany(p => p.Poetries)
+                .HasForeignKey(d => d.AuthorId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("poetry_author_fk");
         });
 
         modelBuilder.Entity<Radical>(entity =>
         {
-            entity.HasKey(e => e.RadicalId).HasName("PK__radical__901454229381F345");
+            entity.HasKey(e => e.RadicalId).HasName("PK__radical__90145422751FC284");
 
             entity.ToTable("radical");
 
@@ -343,7 +612,7 @@ public partial class ChineseArtworkContext : DbContext
 
         modelBuilder.Entity<RadicalPic>(entity =>
         {
-            entity.HasKey(e => e.RadicalPicId).HasName("PK__radical___45A6F3BBE5024C97");
+            entity.HasKey(e => e.RadicalPicId).HasName("PK__radical___45A6F3BB341B036A");
 
             entity.ToTable("radical_pic");
 
@@ -365,28 +634,17 @@ public partial class ChineseArtworkContext : DbContext
                 .HasConstraintName("radical_pic_radical_fk");
         });
 
-        modelBuilder.Entity<ScriptStyle>(entity =>
-        {
-            entity.HasKey(e => e.ScriptId).HasName("PK__script_s__13A8E1F30B268430");
-
-            entity.ToTable("script_style");
-
-            entity.Property(e => e.ScriptId).HasColumnName("SCRIPT_ID");
-            entity.Property(e => e.ScriptDescription)
-                .HasMaxLength(500)
-                .HasColumnName("SCRIPT_DESCRIPTION");
-            entity.Property(e => e.ScriptWord)
-                .HasMaxLength(100)
-                .HasColumnName("SCRIPT_WORD");
-        });
-
         modelBuilder.Entity<Style>(entity =>
         {
-            entity.HasKey(e => e.StyleId).HasName("PK__style__056BC21C5BEEC261");
+            entity.HasKey(e => e.StyleId).HasName("PK__style__056BC21CFC8D9B21");
 
             entity.ToTable("style");
 
             entity.Property(e => e.StyleId).HasColumnName("STYLE_ID");
+            entity.Property(e => e.CatId).HasColumnName("CAT_ID");
+            entity.Property(e => e.StyleDescription)
+                .HasMaxLength(500)
+                .HasColumnName("STYLE_DESCRIPTION");
             entity.Property(e => e.StyleKeyword)
                 .HasMaxLength(200)
                 .HasColumnName("STYLE_KEYWORD");
@@ -396,6 +654,11 @@ public partial class ChineseArtworkContext : DbContext
             entity.Property(e => e.StyleStatus)
                 .HasDefaultValue(1)
                 .HasColumnName("STYLE_STATUS");
+
+            entity.HasOne(d => d.Cat).WithMany(p => p.Styles)
+                .HasForeignKey(d => d.CatId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("style_category_fk");
         });
 
         OnModelCreatingPartial(modelBuilder);
