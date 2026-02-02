@@ -82,6 +82,135 @@ INSERT INTO artist (
 (N'傅勝宏', N'0912345678', N'm', N'勝宏', N'勝子', N'宏者', N'1994-09-17', N'/upload/images/artist/user1.jpg', N'user1.jpg', N'artist01', N'artistpassword1', N's9017688@yahoo.com.tw', 1),
 (N'傅勝宏', N'0912345678', N'm', N'勝宏', N'勝', N'者', N'1994-09-17', N'/upload/images/artist/user2.jpg', N'user2.jpg', N'artist02', N'artistpassword2', N's9017611@yahoo.com.tw', 1),
 (N'傅勝宏', N'0912345678', N'f', N'勝宏', N'子', N'宏', N'1994-09-17', N'/upload/images/artist/user3.jpg', N'user3.jpg', N'artist03', N'artistpassword3', N's9017622@yahoo.com.tw', 1);
+-- 聊天室 --
+CREATE TABLE chat_room (
+    ROOM_ID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,        -- 聊天室ID
+    ROOM_URL VARCHAR(300),                                 -- 聊天室URL
+    ROOM_STATUS INT NOT NULL DEFAULT 1,                    -- 聊天室狀態
+    ROOM_UPDATE_STATUS INT NOT NULL DEFAULT 1,             -- 聊天室已讀狀態
+    ROOM_LAST_UPDATE DATETIME2(3) DEFAULT SYSDATETIME(),   -- 建立時間
+);
+INSERT INTO chat_room (
+    ROOM_URL,
+    ROOM_STATUS,
+    ROOM_UPDATE_STATUS,
+    ROOM_LAST_UPDATE
+) VALUES
+    (N'chatRoomUrl',1,0,NOW());
+-- 聊天紀錄 --
+CREATE TABLE [message] (
+    MSG_ID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,         -- 聊天紀錄ID
+	ART_ID INT NOT NULL,                                   -- 藝術家ID
+	MEM_ID INT NOT NULL,                                   -- 會員ID
+	ROOM_ID INT NOT NULL,                                  -- 聊天室ID
+    MSG_CONTENT NVARCHAR(3000) NOT NULL,                   -- 聊天內容
+    MSG_TIME DATETIME2(3) DEFAULT SYSDATETIME(),           -- 訊息時間
+    MSG_DIRECTION INT NOT NULL,                            -- 發送方向(0:藝術家對會員 1:會員對藝術家)
+    MSG_PICTURE NVARCHAR(300),                             -- 聊天圖片路徑
+    MSG_IMAGE NVARCHAR(100),                               -- 聊天圖片名稱
+    CONSTRAINT message_member_fk FOREIGN KEY (MEM_ID) REFERENCES [member] (MEM_ID),
+    CONSTRAINT message_chat_room_fk FOREIGN KEY (ROOM_ID) REFERENCES chat_room(ROOM_ID)
+);
+INSERT INTO [message] (
+    ART_ID,
+    MEM_ID,
+    ROOM_ID,
+    MSG_CONTENT,
+    MSG_DIRECTION
+) VALUES
+    (1,1,1,N'HI',0),
+    (1,1,1,N'Hello',0);
+-- 最新消息 --
+CREATE TABLE news (
+    NEWS_ID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,        -- 最新消息ID
+    NEWS_NAME VARCHAR(50) NOT NULL,                        -- 最新消息名稱
+    NEWS_CONTENT VARCHAR(3000) NOT NULL,                   -- 最新消息內容
+    NEWS_STATUS INT NOT NULL DEFAULT 1,                    -- 最新消息狀態 (0:下架, 1:上架)
+    NEWS_START DATETIME,                                   -- 最新消息開始時間
+    NEWS_END DATETIME,                                     -- 最新消息結束時間
+    NEWS_CREATE_BY NVARCHAR(100) NOT NULL,                 -- 最新消息建立人
+    NEWS_CREATE_DATE DATETIME DEFAULT SYSDATETIME(),       -- 最新消息建立時間
+    NEWS_UPDATE_BY NVARCHAR(100) NOT NULL,                 -- 最新消息修改人
+    NEWS_UPDATE_DATE DATETIME DEFAULT SYSDATETIME()        -- 最新消息修改時間
+);
+INSERT INTO news (
+    NEWS_NAME,
+    NEWS_CONTENT,
+    NEWS_STATUS,
+    NEWS_START,
+    NEWS_END,
+    NEWS_CREATE_BY,
+    NEWS_UPDATE_BY
+) VALUES
+    ('篆刻展覽', '篆刻展覽資訊', 1, CAST(CONVERT(DATE, GETDATE()) AS DATETIME), DATEADD(DAY, 7, CAST(CONVERT(DATE, GETDATE()) AS DATETIME)),N'傅勝宏',N'傅勝宏'),
+    ('書法展覽', '書法展覽資訊', 1, CAST(CONVERT(DATE, GETDATE()) AS DATETIME), DATEADD(DAY, 7, CAST(CONVERT(DATE, GETDATE()) AS DATETIME)),N'傅勝宏',N'傅勝宏'),
+    ('水墨展覽', '水墨展覽資訊', 1, CAST(CONVERT(DATE, GETDATE()) AS DATETIME), DATEADD(DAY, 7, CAST(CONVERT(DATE, GETDATE()) AS DATETIME)),N'傅勝宏',N'傅勝宏');
+-- 公告 Banner --
+CREATE TABLE banner (
+    BAN_ID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,         -- 公告BannerID
+    NEWS_ID INT NOT NULL,                                  -- 最新消息ID
+    BAN_PICTURE VARCHAR(300),                              -- 公告Banner圖片路徑
+    BAN_IMAGE VARCHAR(100),                                -- 公告Banner圖片名稱
+    CONSTRAINT banner_news_fk FOREIGN KEY (NEWS_ID) REFERENCES news(NEWS_ID)
+);
+INSERT INTO banner (
+    NEWS_ID,
+    BAN_PICTURE,
+    BAN_IMAGE
+) VALUES
+    (1, N'/upload/images/banner/seal_carving.jpg', N'seal_carving.jpg'),
+    (2, N'/upload/images/banner/calligraphy.jpg', N'calligraphy.jpg'),
+    (3, N'/upload/images/banner/ink_painting.jpg', N'ink_painting.jpg');
+-- 學會
+CREATE TABLE group_info (
+    GROUP_ID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,       -- 學會ID
+    GROUP_NAME NVARCHAR(100) NOT NULL,                     -- 學會名稱
+    GROUP_DESCRIPTION NVARCHAR(500),                       -- 學會描述
+    GROUP_PHONE VARCHAR(20),                               -- 學會聯絡電話
+    GROUP_EMAIL VARCHAR(50),                               -- 學會聯絡電子郵件
+    GROUP_ADDRESS NVARCHAR(200),                           -- 學會地址
+    GROUP_ESTABLISHED_DATE DATE DEFAULT GETDATE(),         -- 成立日期
+    GROUP_OWNER NVARCHAR(100),                             -- 負責人
+    GROUP_STATUS INT NOT NULL DEFAULT 1,                   -- 學會狀態（0:停用 1:啟用）
+);
+INSERT INTO group_info (
+    GROUP_NAME,
+    GROUP_DESCRIPTION,
+    GROUP_PHONE,
+    GROUP_EMAIL,
+    GROUP_ADDRESS,
+    GROUP_OWNER
+) VALUES
+    (N'書法愛好者學會', N'專注於書法藝術及推廣的協會', N'02-12345678', N'calligraphy@association.org', N'Taipei, Taiwan', N'李大文'),
+    (N'國際藝術家聯盟', N'國際支持藝術發展的平台與協會', N'03-87654321', N'intl.art@association.org', N'Taichung, Taiwan', N'王小明'),
+    (N'東方藝術思想協會', N'注重東方藝術與哲學的研究與合作', N'04-90876543', N'eastern_art@association.org', N'Kaohsiung, Taiwan', N'張三豐');
+-- 入會
+CREATE TABLE association (
+    ASSOC_ID INT IDENTITY(1,1) PRIMARY KEY,                -- 入會ID
+    ART_ID INT NOT NULL,                                   -- 藝術家ID
+    GROUP_ID INT NOT NULL,                                 -- 學會ID
+    ASSOC_JOIN_DATE DATE DEFAULT GETDATE(),                -- 入會日期
+    ASSOC_ROLE NVARCHAR(50),                               -- 入會角色（例如「會員」或「理事」）
+    ASSOC_STATUS INT NOT NULL DEFAULT 1,                   -- 入會狀態（0: 停用，1: 啟用，2: 永久會員）
+    ASSOC_PAYMENT_DATE DATE DEFAULT GETDATE(),             -- 最近繳費日期
+    ASSOC_VALID_UNTIL DATE,                                -- 繳費有效期
+    ASSOC_REMARK NVARCHAR(500),                            -- 備註
+    CONSTRAINT association_artist_fk FOREIGN KEY (ART_ID) REFERENCES artist(ART_ID),
+    CONSTRAINT association_group_info_fk FOREIGN KEY (GROUP_ID) REFERENCES group_info(GROUP_ID)
+);
+INSERT INTO association (
+    ART_ID,
+    GROUP_ID,
+    ASSOC_ROLE,
+    ASSOC_STATUS,
+    ASSOC_VALID_UNTIL,
+    ASSOC_REMARK
+) VALUES 
+    (1, 1, N'會員', 1, '2026-10-01', N'學會年度費用已繳納'),
+    (1, 2, N'理事', 1, '2026-10-02', N'協會支持藝術推廣'),
+    (2, 1, N'會員', 1, '2025-10-03', N'初次加入'),
+    (3, 3, N'會員', 1, '2025-12-31', NULL);
+
 -- 功能-- 
 CREATE TABLE [function] (
     FUNC_ID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,        -- 功能ID
@@ -111,9 +240,9 @@ CREATE TABLE authority (
     ART_ID INT NOT NULL,                                   -- 管理員ID
     FUNC_ID INT NOT NULL,                                  -- 功能ID
     AUTH_STATUS INT NOT NULL DEFAULT 1,                    -- 權限狀態
-    CONSTRAINT authority_artist_FK FOREIGN KEY (ART_ID) REFERENCES artist(ART_ID),
-    CONSTRAINT authority_function_FK FOREIGN KEY (FUNC_ID) REFERENCES [function](FUNC_ID), 
-    CONSTRAINT PK_authority_ART_ID_FUNC_ID PRIMARY KEY (ART_ID, FUNC_ID)
+    CONSTRAINT authority_artist_fk FOREIGN KEY (ART_ID) REFERENCES artist(ART_ID),
+    CONSTRAINT authority_function_fk FOREIGN KEY (FUNC_ID) REFERENCES [function](FUNC_ID), 
+    CONSTRAINT authority_ART_ID_FUNC_ID_pk PRIMARY KEY (ART_ID, FUNC_ID)
 );
 INSERT INTO authority (
     ART_ID,
