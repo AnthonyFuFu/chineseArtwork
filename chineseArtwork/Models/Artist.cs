@@ -35,5 +35,7 @@ public partial class Artist
 
     public virtual ICollection<Artwork> Artworks { get; set; } = new List<Artwork>();
 
+    public virtual ICollection<Association> Associations { get; set; } = new List<Association>();
+
     public virtual ICollection<Authority> Authorities { get; set; } = new List<Authority>();
 }

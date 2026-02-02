@@ -34,4 +34,6 @@ public partial class Member
     public string? MemVerificationCode { get; set; }
 
     public string? MemGoogleUid { get; set; }
+
+    public virtual ICollection<Message> Messages { get; set; } = new List<Message>();
 }

@@ -93,10 +93,9 @@ CREATE TABLE chat_room (
 INSERT INTO chat_room (
     ROOM_URL,
     ROOM_STATUS,
-    ROOM_UPDATE_STATUS,
-    ROOM_LAST_UPDATE
+    ROOM_UPDATE_STATUS
 ) VALUES
-    (N'chatRoomUrl',1,0,NOW());
+    (N'chatRoomUrl',1,0);
 -- 聊天紀錄 --
 CREATE TABLE [message] (
     MSG_ID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,         -- 聊天紀錄ID
