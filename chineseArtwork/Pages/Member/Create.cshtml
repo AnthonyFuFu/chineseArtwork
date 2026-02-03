@@ -1,0 +1,94 @@
+﻿@page
+@model chineseArtwork.Pages.Member.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Member</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Member.MemName" class="control-label"></label>
+                <input asp-for="Member.MemName" class="form-control" />
+                <span asp-validation-for="Member.MemName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Member.MemAccount" class="control-label"></label>
+                <input asp-for="Member.MemAccount" class="form-control" />
+                <span asp-validation-for="Member.MemAccount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Member.MemPassword" class="control-label"></label>
+                <input asp-for="Member.MemPassword" class="form-control" />
+                <span asp-validation-for="Member.MemPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Member.MemGender" class="control-label"></label>
+                <input asp-for="Member.MemGender" class="form-control" />
+                <span asp-validation-for="Member.MemGender" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Member.MemPhone" class="control-label"></label>
+                <input asp-for="Member.MemPhone" class="form-control" />
+                <span asp-validation-for="Member.MemPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Member.MemEmail" class="control-label"></label>
+                <input asp-for="Member.MemEmail" class="form-control" />
+                <span asp-validation-for="Member.MemEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Member.MemAddress" class="control-label"></label>
+                <input asp-for="Member.MemAddress" class="form-control" />
+                <span asp-validation-for="Member.MemAddress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Member.MemBirthday" class="control-label"></label>
+                <input asp-for="Member.MemBirthday" class="form-control" />
+                <span asp-validation-for="Member.MemBirthday" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Member.MemPicture" class="control-label"></label>
+                <input asp-for="Member.MemPicture" class="form-control" />
+                <span asp-validation-for="Member.MemPicture" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Member.MemImage" class="control-label"></label>
+                <input asp-for="Member.MemImage" class="form-control" />
+                <span asp-validation-for="Member.MemImage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Member.MemVerificationStatus" class="control-label"></label>
+                <input asp-for="Member.MemVerificationStatus" class="form-control" />
+                <span asp-validation-for="Member.MemVerificationStatus" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Member.MemVerificationCode" class="control-label"></label>
+                <input asp-for="Member.MemVerificationCode" class="form-control" />
+                <span asp-validation-for="Member.MemVerificationCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Member.MemGoogleUid" class="control-label"></label>
+                <input asp-for="Member.MemGoogleUid" class="form-control" />
+                <span asp-validation-for="Member.MemGoogleUid" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

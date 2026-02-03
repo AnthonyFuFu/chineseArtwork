@@ -1,0 +1,103 @@
+﻿@page
+@model chineseArtwork.Pages.Member.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Member</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Member.MemName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Member.MemName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Member.MemAccount)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Member.MemAccount)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Member.MemPassword)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Member.MemPassword)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Member.MemGender)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Member.MemGender)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Member.MemPhone)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Member.MemPhone)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Member.MemEmail)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Member.MemEmail)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Member.MemAddress)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Member.MemAddress)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Member.MemBirthday)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Member.MemBirthday)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Member.MemPicture)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Member.MemPicture)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Member.MemImage)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Member.MemImage)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Member.MemStatus)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Member.MemStatus)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Member.MemVerificationStatus)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Member.MemVerificationStatus)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Member.MemVerificationCode)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Member.MemVerificationCode)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Member.MemGoogleUid)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Member.MemGoogleUid)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Member.MemId">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

@@ -12,7 +12,7 @@ namespace chineseArtwork.Controllers.Admin
             _memberService = memberService;
         }
 
-        public IActionResult Index()
+        public IActionResult List()
         {
             var members = _memberService.GetAllMembers();
             return View(members);

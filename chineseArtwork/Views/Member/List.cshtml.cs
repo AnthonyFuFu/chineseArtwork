@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace chineseArtwork.Views.Member
 {
-    public class IndexModel : PageModel
+    public class ListModel : PageModel
     {
         public void OnGet()
         {

@@ -1,0 +1,114 @@
+﻿@page
+@model chineseArtwork.Pages.Member.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Member[0].MemName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Member[0].MemAccount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Member[0].MemPassword)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Member[0].MemGender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Member[0].MemPhone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Member[0].MemEmail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Member[0].MemAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Member[0].MemBirthday)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Member[0].MemPicture)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Member[0].MemImage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Member[0].MemStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Member[0].MemVerificationStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Member[0].MemVerificationCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Member[0].MemGoogleUid)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Member) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemAccount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemPassword)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemGender)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemPhone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemEmail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemBirthday)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemPicture)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemImage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemVerificationStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemVerificationCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemGoogleUid)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.MemId">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.MemId">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.MemId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
