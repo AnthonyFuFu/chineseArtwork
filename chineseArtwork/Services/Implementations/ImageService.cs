@@ -1,13 +1,11 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using chineseArtwork.Models;
 using chineseArtwork.Utils;
+using chineseArtwork.Services.Interfaces;
 
-namespace chineseArtwork.Services
+namespace chineseArtwork.Services.Implementations
 {
-    public interface IImageService
-    {
-        Task<ImageResponseModel> SaveImageAsync(ImageUploadRequest request);
-    }
+
     public class ImageService : IImageService
     {
         private readonly IWebHostEnvironment _environment;

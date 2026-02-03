@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using chineseArtwork.Models;
-using chineseArtwork.Services;
+using chineseArtwork.Services.Interfaces;
 
 namespace chineseArtwork.Controllers
 {

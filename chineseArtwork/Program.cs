@@ -1,7 +1,23 @@
+using chineseArtwork.Dao.Implementations;
+using chineseArtwork.Dao.Interfaces;
+using chineseArtwork.Models;
+using chineseArtwork.Services.Implementations;
+using chineseArtwork.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<ChineseArtworkContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ChineseArtworkConnection")));
+
+builder.Services.AddScoped<IMemberDao, MemberDao>();
+
+builder.Services.AddScoped<IMemberService, MemberService>();
+
+
 
 var app = builder.Build();
 
