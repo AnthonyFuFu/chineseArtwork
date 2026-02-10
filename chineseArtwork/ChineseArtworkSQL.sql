@@ -364,6 +364,7 @@ CREATE TABLE artwork_pic (
     AW_ID INT,                                             -- 作品ID
     AW_PIC_SORT INT,                                       -- 作品圖片排序
     AW_PICTURE VARCHAR(300),                               -- 作品圖片路徑
+    AW_CACHE_PICTURE VARCHAR(300),                         -- 作品圖片快取路徑
     AW_IMAGE VARCHAR(100),                                 -- 作品圖片名稱
     CONSTRAINT artwork_pic_artwork_fk FOREIGN KEY (AW_ID) REFERENCES artwork(AW_ID)
 );
@@ -371,14 +372,15 @@ INSERT INTO artwork_pic (
     AW_ID,
     AW_PIC_SORT,
     AW_PICTURE,
+    AW_CACHE_PICTURE,
     AW_IMAGE
 ) VALUES
-(1, 1, N'/upload/images/artworkPic/artwork_pic1.jpg', N'artwork_pic1.jpg'),
-(1, 2, N'/upload/images/artworkPic/artwork_pic2.jpg', N'artwork_pic2.jpg'),
-(1, 3, N'/upload/images/artworkPic/artwork_pic3.jpg', N'artwork_pic3.jpg'),
-(2, 1, N'/upload/images/artworkPic/artwork_pic4.jpg', N'artwork_pic4.jpg'),
-(2, 3, N'/upload/images/artworkPic/artwork_pic5.jpg', N'artwork_pic5.jpg'),
-(2, 2, N'/upload/images/artworkPic/artwork_pic6.jpg', N'artwork_pic6.jpg');
+(1, 1, N'/upload/images/artworkPic/artwork_pic1.jpg', N'/upload/images/cache/artworkPic/artwork_pic1.jpg', N'artwork_pic1.jpg'),
+(1, 2, N'/upload/images/artworkPic/artwork_pic2.jpg', N'/upload/images/cache/artworkPic/artwork_pic2.jpg', N'artwork_pic2.jpg'),
+(1, 3, N'/upload/images/artworkPic/artwork_pic3.jpg', N'/upload/images/cache/artworkPic/artwork_pic3.jpg', N'artwork_pic3.jpg'),
+(2, 1, N'/upload/images/artworkPic/artwork_pic4.jpg', N'/upload/images/cache/artworkPic/artwork_pic4.jpg', N'artwork_pic4.jpg'),
+(2, 3, N'/upload/images/artworkPic/artwork_pic5.jpg', N'/upload/images/cache/artworkPic/artwork_pic5.jpg', N'artwork_pic5.jpg'),
+(2, 2, N'/upload/images/artworkPic/artwork_pic6.jpg', N'/upload/images/cache/artworkPic/artwork_pic6.jpg', N'artwork_pic6.jpg');
 -- 知名藝術家作品
 CREATE TABLE famous_artwork (
     FMS_AW_ID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,      -- 知名藝術家作品ID
@@ -412,6 +414,7 @@ CREATE TABLE famous_artwork_pic (
     FMS_AW_ID INT,                                         -- 知名藝術家作品ID
     FMS_AW_PIC_SORT INT,                                   -- 知名藝術家作品圖片排序
     FMS_AW_PICTURE VARCHAR(300),                           -- 知名藝術家作品圖片路徑
+    FMS_AW_CACHE_PICTURE VARCHAR(300),                     -- 知名藝術家作品圖片快取路徑
     FMS_AW_IMAGE VARCHAR(100),                             -- 知名藝術家作品圖片名稱
     CONSTRAINT famous_artwork_pic_famous_artwork_fk FOREIGN KEY (FMS_AW_ID) REFERENCES famous_artwork(FMS_AW_ID)
 );
@@ -419,20 +422,21 @@ INSERT INTO famous_artwork_pic (
     FMS_AW_ID,
     FMS_AW_PIC_SORT,
     FMS_AW_PICTURE,
+    FMS_AW_CACHE_PICTURE,
     FMS_AW_IMAGE
 ) VALUES 
 -- 四君子篆刻作品 (ID: 1)
-(1, 1, N'/upload/images/famousArtworkPic/four_gentlemen_carving_1.jpg', N'four_gentlemen_carving_1.jpg'),
-(1, 2, N'/upload/images/famousArtworkPic/four_gentlemen_carving_2.jpg', N'four_gentlemen_carving_2.jpg'),
+(1, 1, N'/upload/images/famousArtworkPic/four_gentlemen_carving_1.jpg', N'/upload/images/cache/famousArtworkPic/four_gentlemen_carving_1.jpg', N'four_gentlemen_carving_1.jpg'),
+(1, 2, N'/upload/images/famousArtworkPic/four_gentlemen_carving_2.jpg', N'/upload/images/cache/famousArtworkPic/four_gentlemen_carving_2.jpg', N'four_gentlemen_carving_2.jpg'),
 -- 嵩陽書院草書對聯 (ID: 2)
-(2, 1, N'/upload/images/famousArtworkPic/songyang_grass_script_couplet_1.jpg', N'songyang_grass_script_couplet_1.jpg'),
-(2, 2, N'/upload/images/famousArtworkPic/songyang_grass_script_couplet_2.jpg', N'songyang_grass_script_couplet_2.jpg'),
+(2, 1, N'/upload/images/famousArtworkPic/songyang_grass_script_couplet_1.jpg', N'/upload/images/cache/famousArtworkPic/songyang_grass_script_couplet_1.jpg', N'songyang_grass_script_couplet_1.jpg'),
+(2, 2, N'/upload/images/famousArtworkPic/songyang_grass_script_couplet_2.jpg', N'/upload/images/cache/famousArtworkPic/songyang_grass_script_couplet_2.jpg', N'songyang_grass_script_couplet_2.jpg'),
 -- 螞蟻工筆畫 (ID: 3)
-(3, 1, N'/upload/images/famousArtworkPic/ant_gongbi_1.jpg', N'ant_gongbi_1.jpg'),
-(3, 2, N'/upload/images/famousArtworkPic/ant_gongbi_2.jpg', N'ant_gongbi_2.jpg'),
+(3, 1, N'/upload/images/famousArtworkPic/ant_gongbi_1.jpg', N'/upload/images/cache/famousArtworkPic/ant_gongbi_1.jpg', N'ant_gongbi_1.jpg'),
+(3, 2, N'/upload/images/famousArtworkPic/ant_gongbi_2.jpg', N'/upload/images/cache/famousArtworkPic/ant_gongbi_2.jpg', N'ant_gongbi_2.jpg'),
 -- 荷花寫意畫 (ID: 4)
-(4, 1, N'/upload/images/famousArtworkPic/lotus_freehand_1.jpg', N'lotus_freehand_1.jpg'),
-(4, 2, N'/upload/images/famousArtworkPic/lotus_freehand_2.jpg', N'lotus_freehand_2.jpg');
+(4, 1, N'/upload/images/famousArtworkPic/lotus_freehand_1.jpg', N'/upload/images/cache/famousArtworkPic/lotus_freehand_1.jpg', N'lotus_freehand_1.jpg'),
+(4, 2, N'/upload/images/famousArtworkPic/lotus_freehand_2.jpg', N'/upload/images/cache/famousArtworkPic/lotus_freehand_2.jpg', N'lotus_freehand_2.jpg');
 -- 部首
 CREATE TABLE radical (
     RADICAL_ID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,     -- 部首ID
@@ -450,20 +454,33 @@ INSERT INTO radical (
 CREATE TABLE radical_pic (
     RADICAL_PIC_ID INT IDENTITY(1,1) NOT NULL PRIMARY KEY, -- 部首圖片ID
     RADICAL_ID INT NOT NULL,                               -- 部首ID
+    STYLE_ID INT NOT NULL,                                 -- 作品風格ID
     RADICAL_PIC_SORT INT,                                  -- 部首圖片排序
+    RADICAL_NAME NVARCHAR(100),                            -- 部首圖片作者
     RADICAL_PICTURE NVARCHAR(300),                         -- 部首圖片路徑
+    RADICAL_CACHE_PICTURE NVARCHAR(300),                   -- 部首圖片快取路徑
     RADICAL_IMAGE NVARCHAR(100),                           -- 部首圖片名稱
-    CONSTRAINT radical_pic_radical_fk FOREIGN KEY (RADICAL_ID) REFERENCES radical(RADICAL_ID)
+    RADICAL_CREATE_BY NVARCHAR(100) NOT NULL,              -- 部首圖片建立人
+    RADICAL_CREATE_DATE DATETIME2(3) DEFAULT SYSDATETIME(),-- 部首圖片建立時間
+    RADICAL_UPDATE_BY NVARCHAR(100) NOT NULL,              -- 部首圖片修改人
+    RADICAL_UPDATE_DATE DATETIME2(3) DEFAULT SYSDATETIME(),-- 部首圖片建立時間
+    CONSTRAINT radical_pic_radical_fk FOREIGN KEY (RADICAL_ID) REFERENCES radical(RADICAL_ID),
+    CONSTRAINT radical_pic_style_fk FOREIGN KEY (STYLE_ID) REFERENCES style(STYLE_ID)
 );
 INSERT INTO radical_pic (
     RADICAL_ID,
+    STYLE_ID,
     RADICAL_PIC_SORT,
+    RADICAL_NAME,
     RADICAL_PICTURE,
-    RADICAL_IMAGE
+    RADICAL_CACHE_PICTURE,
+    RADICAL_IMAGE,
+    RADICAL_CREATE_BY,
+    RADICAL_UPDATE_BY
 ) VALUES
-(1, 1, N'/upload/images/radical/water/', N'water_01.png'),
-(2, 1, N'/upload/images/radical/wood/',  N'wood_01.png'),
-(3, 1, N'/upload/images/radical/heart/', N'heart_01.png');
+(1, 8, 1, N'佚名', N'/upload/images/radical/water_01.png', N'/upload/images/cache/radical/water_01.png', N'water_01.png', N'傅勝宏', N'傅勝宏'),
+(2, 8, 1, N'佚名', N'/upload/images/radical/wood_01.png', N'/upload/images/cache/radical/wood_01.png',  N'wood_01.png', N'傅勝宏', N'傅勝宏'),
+(3, 8, 1, N'佚名', N'/upload/images/radical/heart_01.png', N'/upload/images/cache/radical/heart_01.png', N'heart_01.png', N'傅勝宏', N'傅勝宏');
 -- 字典
 CREATE TABLE dictionary (
     DICT_ID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,        -- 字典ID
@@ -494,8 +511,14 @@ CREATE TABLE dictionary_pic (
     DICT_ID INT NOT NULL,                                  -- 字典ID
     STYLE_ID INT NOT NULL,                                 -- 作品風格ID
     DICT_PIC_SORT INT,                                     -- 字典圖片排序
+    DICT_NAME NVARCHAR(100),                               -- 字典圖片作者
     DICT_PICTURE NVARCHAR(300),                            -- 字典圖片路徑
+    DICT_CACHE_PICTURE NVARCHAR(300),                      -- 字典圖片快取路徑
     DICT_IMAGE NVARCHAR(100),                              -- 字典圖片名稱
+    DICT_CREATE_BY NVARCHAR(100) NOT NULL,                 -- 部首圖片建立人
+    DICT_CREATE_DATE DATETIME2(3) DEFAULT SYSDATETIME(),   -- 部首圖片建立時間
+    DICT_UPDATE_BY NVARCHAR(100) NOT NULL,                 -- 部首圖片修改人
+    DICT_UPDATE_DATE DATETIME2(3) DEFAULT SYSDATETIME(),   -- 部首圖片建立時間
     CONSTRAINT dictionary_pic_dictionary_fk FOREIGN KEY (DICT_ID) REFERENCES dictionary(DICT_ID),
     CONSTRAINT dictionary_pic_style_fk FOREIGN KEY (STYLE_ID) REFERENCES style(STYLE_ID)
 );
@@ -503,12 +526,16 @@ INSERT INTO dictionary_pic (
     DICT_ID,
     STYLE_ID,
     DICT_PIC_SORT,
+    DICT_NAME,
     DICT_PICTURE,
-    DICT_IMAGE
+    DICT_CACHE_PICTURE,
+    DICT_IMAGE,
+    DICT_CREATE_BY,
+    DICT_UPDATE_BY
 ) VALUES
-(1, 8, 1, N'/upload/images/dictionary/river/', N'river_01.png'),
-(2, 8, 1, N'/upload/images/dictionary/forest/', N'forest_01.png'),
-(3, 8, 1, N'/upload/images/dictionary/thought/', N'thought_01.png');
+(1, 8, 1, N'佚名', N'/upload/images/dictionary/river_01.png', N'/upload/images/cache/dictionary/river_01.png', N'river_01.png', N'傅勝宏', N'傅勝宏'),
+(2, 8, 1, N'佚名', N'/upload/images/dictionary/forest_01.png', N'/upload/images/cache/dictionary/forest_01.png', N'forest_01.png', N'傅勝宏', N'傅勝宏'),
+(3, 8, 1, N'佚名', N'/upload/images/dictionary/thought_01.png', N'/upload/images/cache/dictionary/thought_01.png', N'thought_01.png', N'傅勝宏', N'傅勝宏');
 -- 朝代
 CREATE TABLE dynasty (
     DYNASTY_ID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,     -- 朝代ID
