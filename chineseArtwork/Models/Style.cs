@@ -24,4 +24,6 @@ public partial class Style
     public virtual ICollection<DictionaryPic> DictionaryPics { get; set; } = new List<DictionaryPic>();
 
     public virtual ICollection<FamousArtwork> FamousArtworks { get; set; } = new List<FamousArtwork>();
+
+    public virtual ICollection<RadicalPic> RadicalPics { get; set; } = new List<RadicalPic>();
 }

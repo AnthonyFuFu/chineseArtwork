@@ -70,7 +70,7 @@ public partial class ChineseArtworkContext : DbContext
     {
         modelBuilder.Entity<Artist>(entity =>
         {
-            entity.HasKey(e => e.ArtId).HasName("PK__artist__FCD631071740F22C");
+            entity.HasKey(e => e.ArtId).HasName("PK__artist__FCD63107AB2838A0");
 
             entity.ToTable("artist");
 
@@ -130,7 +130,7 @@ public partial class ChineseArtworkContext : DbContext
 
         modelBuilder.Entity<Artwork>(entity =>
         {
-            entity.HasKey(e => e.AwId).HasName("PK__artwork__64D812B2020F1EDB");
+            entity.HasKey(e => e.AwId).HasName("PK__artwork__64D812B27A65DECC");
 
             entity.ToTable("artwork");
 
@@ -142,10 +142,10 @@ public partial class ChineseArtworkContext : DbContext
 
             entity.Property(e => e.AwId).HasColumnName("AW_ID");
             entity.Property(e => e.ArtId).HasColumnName("ART_ID");
-            entity.Property(e => e.AwCreateTime)
+            entity.Property(e => e.AwCreateDate)
                 .HasPrecision(3)
                 .HasDefaultValueSql("(sysdatetime())")
-                .HasColumnName("AW_CREATE_TIME");
+                .HasColumnName("AW_CREATE_DATE");
             entity.Property(e => e.AwCreated)
                 .HasPrecision(3)
                 .HasColumnName("AW_CREATED");
@@ -162,19 +162,19 @@ public partial class ChineseArtworkContext : DbContext
             entity.Property(e => e.AwPrice)
                 .HasColumnType("decimal(10, 2)")
                 .HasColumnName("AW_PRICE");
-            entity.Property(e => e.AwSoldTime)
+            entity.Property(e => e.AwSoldDate)
                 .HasPrecision(3)
-                .HasColumnName("AW_SOLD_TIME");
+                .HasColumnName("AW_SOLD_DATE");
             entity.Property(e => e.AwStatus)
                 .HasDefaultValue(1)
                 .HasColumnName("AW_STATUS");
             entity.Property(e => e.AwTitle)
                 .HasMaxLength(100)
                 .HasColumnName("AW_TITLE");
-            entity.Property(e => e.AwUpdateTime)
+            entity.Property(e => e.AwUpdateDate)
                 .HasPrecision(3)
                 .HasDefaultValueSql("(sysdatetime())")
-                .HasColumnName("AW_UPDATE_TIME");
+                .HasColumnName("AW_UPDATE_DATE");
             entity.Property(e => e.CatId).HasColumnName("CAT_ID");
             entity.Property(e => e.StyleId).HasColumnName("STYLE_ID");
 
@@ -196,11 +196,15 @@ public partial class ChineseArtworkContext : DbContext
 
         modelBuilder.Entity<ArtworkPic>(entity =>
         {
-            entity.HasKey(e => e.AwPicId).HasName("PK__artwork___02B3E5F84D79B494");
+            entity.HasKey(e => e.AwPicId).HasName("PK__artwork___02B3E5F8D91AFA43");
 
             entity.ToTable("artwork_pic");
 
             entity.Property(e => e.AwPicId).HasColumnName("AW_PIC_ID");
+            entity.Property(e => e.AwCachePicture)
+                .HasMaxLength(300)
+                .IsUnicode(false)
+                .HasColumnName("AW_CACHE_PICTURE");
             entity.Property(e => e.AwId).HasColumnName("AW_ID");
             entity.Property(e => e.AwImage)
                 .HasMaxLength(100)
@@ -219,7 +223,7 @@ public partial class ChineseArtworkContext : DbContext
 
         modelBuilder.Entity<Association>(entity =>
         {
-            entity.HasKey(e => e.AssocId).HasName("PK__associat__E84AB27FEA37FAD0");
+            entity.HasKey(e => e.AssocId).HasName("PK__associat__E84AB27FCA595A68");
 
             entity.ToTable("association");
 
@@ -256,7 +260,7 @@ public partial class ChineseArtworkContext : DbContext
 
         modelBuilder.Entity<Author>(entity =>
         {
-            entity.HasKey(e => e.AuthorId).HasName("PK__author__A83981454C48C889");
+            entity.HasKey(e => e.AuthorId).HasName("PK__author__A839814541C4A034");
 
             entity.ToTable("author");
 
@@ -311,7 +315,7 @@ public partial class ChineseArtworkContext : DbContext
 
         modelBuilder.Entity<Banner>(entity =>
         {
-            entity.HasKey(e => e.BanId).HasName("PK__banner__DA9979A16C2E91D6");
+            entity.HasKey(e => e.BanId).HasName("PK__banner__DA9979A1E0B33A29");
 
             entity.ToTable("banner");
 
@@ -334,7 +338,7 @@ public partial class ChineseArtworkContext : DbContext
 
         modelBuilder.Entity<Category>(entity =>
         {
-            entity.HasKey(e => e.CatId).HasName("PK__category__5F8323A8BA940186");
+            entity.HasKey(e => e.CatId).HasName("PK__category__5F8323A89B139EF2");
 
             entity.ToTable("category");
 
@@ -352,7 +356,7 @@ public partial class ChineseArtworkContext : DbContext
 
         modelBuilder.Entity<ChatRoom>(entity =>
         {
-            entity.HasKey(e => e.RoomId).HasName("PK__chat_roo__2F3DD4826CC8E382");
+            entity.HasKey(e => e.RoomId).HasName("PK__chat_roo__2F3DD48219F0657B");
 
             entity.ToTable("chat_room");
 
@@ -375,17 +379,13 @@ public partial class ChineseArtworkContext : DbContext
 
         modelBuilder.Entity<Dictionary>(entity =>
         {
-            entity.HasKey(e => e.DictId).HasName("PK__dictiona__CB0CC840C6E03D27");
+            entity.HasKey(e => e.DictId).HasName("PK__dictiona__CB0CC84078893000");
 
             entity.ToTable("dictionary");
 
             entity.HasIndex(e => e.RadicalId, "idx_dictionary_radical_id");
 
             entity.Property(e => e.DictId).HasColumnName("DICT_ID");
-            entity.Property(e => e.DictCreateTime)
-                .HasPrecision(3)
-                .HasDefaultValueSql("(sysdatetime())")
-                .HasColumnName("DICT_CREATE_TIME");
             entity.Property(e => e.DictDescription)
                 .HasMaxLength(500)
                 .HasColumnName("DICT_DESCRIPTION");
@@ -394,10 +394,6 @@ public partial class ChineseArtworkContext : DbContext
                 .HasDefaultValue(1)
                 .HasColumnName("DICT_STATUS");
             entity.Property(e => e.DictStrokes).HasColumnName("DICT_STROKES");
-            entity.Property(e => e.DictUpdateTime)
-                .HasPrecision(3)
-                .HasDefaultValueSql("(sysdatetime())")
-                .HasColumnName("DICT_UPDATE_TIME");
             entity.Property(e => e.DictWord)
                 .HasMaxLength(20)
                 .HasColumnName("DICT_WORD");
@@ -411,21 +407,41 @@ public partial class ChineseArtworkContext : DbContext
 
         modelBuilder.Entity<DictionaryPic>(entity =>
         {
-            entity.HasKey(e => e.DictPicId).HasName("PK__dictiona__1E22D66A929F0952");
+            entity.HasKey(e => e.DictPicId).HasName("PK__dictiona__1E22D66ACC39B7E8");
 
             entity.ToTable("dictionary_pic");
 
             entity.HasIndex(e => e.DictId, "idx_dictionary_pic_dict_id");
 
             entity.Property(e => e.DictPicId).HasColumnName("DICT_PIC_ID");
+            entity.Property(e => e.DictCachePicture)
+                .HasMaxLength(300)
+                .HasColumnName("DICT_CACHE_PICTURE");
+            entity.Property(e => e.DictCreateBy)
+                .HasMaxLength(100)
+                .HasColumnName("DICT_CREATE_BY");
+            entity.Property(e => e.DictCreateDate)
+                .HasPrecision(3)
+                .HasDefaultValueSql("(sysdatetime())")
+                .HasColumnName("DICT_CREATE_DATE");
             entity.Property(e => e.DictId).HasColumnName("DICT_ID");
             entity.Property(e => e.DictImage)
                 .HasMaxLength(100)
                 .HasColumnName("DICT_IMAGE");
+            entity.Property(e => e.DictName)
+                .HasMaxLength(100)
+                .HasColumnName("DICT_NAME");
             entity.Property(e => e.DictPicSort).HasColumnName("DICT_PIC_SORT");
             entity.Property(e => e.DictPicture)
                 .HasMaxLength(300)
                 .HasColumnName("DICT_PICTURE");
+            entity.Property(e => e.DictUpdateBy)
+                .HasMaxLength(100)
+                .HasColumnName("DICT_UPDATE_BY");
+            entity.Property(e => e.DictUpdateDate)
+                .HasPrecision(3)
+                .HasDefaultValueSql("(sysdatetime())")
+                .HasColumnName("DICT_UPDATE_DATE");
             entity.Property(e => e.StyleId).HasColumnName("STYLE_ID");
 
             entity.HasOne(d => d.Dict).WithMany(p => p.DictionaryPics)
@@ -441,7 +457,7 @@ public partial class ChineseArtworkContext : DbContext
 
         modelBuilder.Entity<Dynasty>(entity =>
         {
-            entity.HasKey(e => e.DynastyId).HasName("PK__dynasty__FD518255BC3DBD28");
+            entity.HasKey(e => e.DynastyId).HasName("PK__dynasty__FD518255C78213FA");
 
             entity.ToTable("dynasty");
 
@@ -452,11 +468,12 @@ public partial class ChineseArtworkContext : DbContext
             entity.Property(e => e.DynastyName)
                 .HasMaxLength(50)
                 .HasColumnName("DYNASTY_NAME");
+            entity.Property(e => e.DynastySort).HasColumnName("DYNASTY_SORT");
         });
 
         modelBuilder.Entity<FamousArtist>(entity =>
         {
-            entity.HasKey(e => e.FmsArtId).HasName("PK__famous_a__ACBD812DC2D6CB49");
+            entity.HasKey(e => e.FmsArtId).HasName("PK__famous_a__ACBD812D40D71503");
 
             entity.ToTable("famous_artist");
 
@@ -493,7 +510,7 @@ public partial class ChineseArtworkContext : DbContext
 
         modelBuilder.Entity<FamousArtwork>(entity =>
         {
-            entity.HasKey(e => e.FmsAwId).HasName("PK__famous_a__1F642E328BC1D613");
+            entity.HasKey(e => e.FmsAwId).HasName("PK__famous_a__1F642E3284840C12");
 
             entity.ToTable("famous_artwork");
 
@@ -504,10 +521,13 @@ public partial class ChineseArtworkContext : DbContext
             entity.Property(e => e.FmsAwId).HasColumnName("FMS_AW_ID");
             entity.Property(e => e.CatId).HasColumnName("CAT_ID");
             entity.Property(e => e.FmsArtId).HasColumnName("FMS_ART_ID");
-            entity.Property(e => e.FmsAwCreateTime)
+            entity.Property(e => e.FmsAwCreateBy)
+                .HasMaxLength(100)
+                .HasColumnName("FMS_AW_CREATE_BY");
+            entity.Property(e => e.FmsAwCreateDate)
                 .HasPrecision(3)
                 .HasDefaultValueSql("(sysdatetime())")
-                .HasColumnName("FMS_AW_CREATE_TIME");
+                .HasColumnName("FMS_AW_CREATE_DATE");
             entity.Property(e => e.FmsAwDimension)
                 .HasMaxLength(100)
                 .HasColumnName("FMS_AW_DIMENSION");
@@ -517,10 +537,13 @@ public partial class ChineseArtworkContext : DbContext
             entity.Property(e => e.FmsAwTitle)
                 .HasMaxLength(100)
                 .HasColumnName("FMS_AW_TITLE");
-            entity.Property(e => e.FmsAwUpdateTime)
+            entity.Property(e => e.FmsAwUpdateBy)
+                .HasMaxLength(100)
+                .HasColumnName("FMS_AW_UPDATE_BY");
+            entity.Property(e => e.FmsAwUpdateDate)
                 .HasPrecision(3)
                 .HasDefaultValueSql("(sysdatetime())")
-                .HasColumnName("FMS_AW_UPDATE_TIME");
+                .HasColumnName("FMS_AW_UPDATE_DATE");
             entity.Property(e => e.StyleId).HasColumnName("STYLE_ID");
 
             entity.HasOne(d => d.Cat).WithMany(p => p.FamousArtworks)
@@ -541,17 +564,35 @@ public partial class ChineseArtworkContext : DbContext
 
         modelBuilder.Entity<FamousArtworkPic>(entity =>
         {
-            entity.HasKey(e => e.FmsAwPicId).HasName("PK__famous_a__3F0738674A37EEAF");
+            entity.HasKey(e => e.FmsAwPicId).HasName("PK__famous_a__3F07386777E4D68B");
 
             entity.ToTable("famous_artwork_pic");
 
             entity.Property(e => e.FmsAwPicId).HasColumnName("FMS_AW_PIC_ID");
+            entity.Property(e => e.FmsAwCachePicture)
+                .HasMaxLength(300)
+                .IsUnicode(false)
+                .HasColumnName("FMS_AW_CACHE_PICTURE");
             entity.Property(e => e.FmsAwId).HasColumnName("FMS_AW_ID");
             entity.Property(e => e.FmsAwImage)
                 .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasColumnName("FMS_AW_IMAGE");
+            entity.Property(e => e.FmsAwPicCreateBy)
+                .HasMaxLength(100)
+                .HasColumnName("FMS_AW_PIC_CREATE_BY");
+            entity.Property(e => e.FmsAwPicCreateDate)
+                .HasPrecision(3)
+                .HasDefaultValueSql("(sysdatetime())")
+                .HasColumnName("FMS_AW_PIC_CREATE_DATE");
             entity.Property(e => e.FmsAwPicSort).HasColumnName("FMS_AW_PIC_SORT");
+            entity.Property(e => e.FmsAwPicUpdateBy)
+                .HasMaxLength(100)
+                .HasColumnName("FMS_AW_PIC_UPDATE_BY");
+            entity.Property(e => e.FmsAwPicUpdateDate)
+                .HasPrecision(3)
+                .HasDefaultValueSql("(sysdatetime())")
+                .HasColumnName("FMS_AW_PIC_UPDATE_DATE");
             entity.Property(e => e.FmsAwPicture)
                 .HasMaxLength(300)
                 .IsUnicode(false)
@@ -564,7 +605,7 @@ public partial class ChineseArtworkContext : DbContext
 
         modelBuilder.Entity<Function>(entity =>
         {
-            entity.HasKey(e => e.FuncId).HasName("PK__function__68DC74266E705B89");
+            entity.HasKey(e => e.FuncId).HasName("PK__function__68DC742694A04150");
 
             entity.ToTable("function");
 
@@ -592,7 +633,7 @@ public partial class ChineseArtworkContext : DbContext
 
         modelBuilder.Entity<GroupInfo>(entity =>
         {
-            entity.HasKey(e => e.GroupId).HasName("PK__group_in__3EFEA3DE2AE8F5E7");
+            entity.HasKey(e => e.GroupId).HasName("PK__group_in__3EFEA3DE9F6006FA");
 
             entity.ToTable("group_info");
 
@@ -627,7 +668,7 @@ public partial class ChineseArtworkContext : DbContext
 
         modelBuilder.Entity<Member>(entity =>
         {
-            entity.HasKey(e => e.MemId).HasName("PK__member__1B42917C1F6F7F5F");
+            entity.HasKey(e => e.MemId).HasName("PK__member__1B42917C730EA852");
 
             entity.ToTable("member");
 
@@ -688,7 +729,7 @@ public partial class ChineseArtworkContext : DbContext
 
         modelBuilder.Entity<Message>(entity =>
         {
-            entity.HasKey(e => e.MsgId).HasName("PK__message__825DA51C54464EA7");
+            entity.HasKey(e => e.MsgId).HasName("PK__message__825DA51C5908887F");
 
             entity.ToTable("message");
 
@@ -724,7 +765,7 @@ public partial class ChineseArtworkContext : DbContext
 
         modelBuilder.Entity<News>(entity =>
         {
-            entity.HasKey(e => e.NewsId).HasName("PK__news__D55D9908AFAD6425");
+            entity.HasKey(e => e.NewsId).HasName("PK__news__D55D99083B268A08");
 
             entity.ToTable("news");
 
@@ -764,19 +805,16 @@ public partial class ChineseArtworkContext : DbContext
 
         modelBuilder.Entity<Poetry>(entity =>
         {
-            entity.HasKey(e => e.PoetryId).HasName("PK__poetry__0575DE228CA8C8A6");
+            entity.HasKey(e => e.PoetryId).HasName("PK__poetry__0575DE22EB44ED89");
 
             entity.ToTable("poetry");
 
-            entity.HasIndex(e => e.PoetryAddedBy, "idx_poetry_added_by");
-
             entity.HasIndex(e => e.AuthorId, "idx_poetry_author_id");
+
+            entity.HasIndex(e => e.PoetryCreateBy, "idx_poetry_create_by");
 
             entity.Property(e => e.PoetryId).HasColumnName("POETRY_ID");
             entity.Property(e => e.AuthorId).HasColumnName("AUTHOR_ID");
-            entity.Property(e => e.PoetryAddedBy)
-                .HasMaxLength(100)
-                .HasColumnName("POETRY_ADDED_BY");
             entity.Property(e => e.PoetryAnalysis)
                 .HasColumnType("ntext")
                 .HasColumnName("POETRY_ANALYSIS");
@@ -786,6 +824,13 @@ public partial class ChineseArtworkContext : DbContext
             entity.Property(e => e.PoetryContent)
                 .HasColumnType("ntext")
                 .HasColumnName("POETRY_CONTENT");
+            entity.Property(e => e.PoetryCreateBy)
+                .HasMaxLength(100)
+                .HasColumnName("POETRY_CREATE_BY");
+            entity.Property(e => e.PoetryCreateDate)
+                .HasDefaultValueSql("(sysdatetime())")
+                .HasColumnType("datetime")
+                .HasColumnName("POETRY_CREATE_DATE");
             entity.Property(e => e.PoetryKeywords)
                 .HasMaxLength(500)
                 .HasColumnName("POETRY_KEYWORDS");
@@ -795,6 +840,13 @@ public partial class ChineseArtworkContext : DbContext
             entity.Property(e => e.PoetryTranslation)
                 .HasColumnType("ntext")
                 .HasColumnName("POETRY_TRANSLATION");
+            entity.Property(e => e.PoetryUpdateBy)
+                .HasMaxLength(100)
+                .HasColumnName("POETRY_UPDATE_BY");
+            entity.Property(e => e.PoetryUpdateDate)
+                .HasDefaultValueSql("(sysdatetime())")
+                .HasColumnType("datetime")
+                .HasColumnName("POETRY_UPDATE_DATE");
             entity.Property(e => e.PoetryWordCount).HasColumnName("POETRY_WORD_COUNT");
 
             entity.HasOne(d => d.Author).WithMany(p => p.Poetries)
@@ -805,11 +857,12 @@ public partial class ChineseArtworkContext : DbContext
 
         modelBuilder.Entity<Radical>(entity =>
         {
-            entity.HasKey(e => e.RadicalId).HasName("PK__radical__90145422E079EF75");
+            entity.HasKey(e => e.RadicalId).HasName("PK__radical__9014542269A45DBD");
 
             entity.ToTable("radical");
 
             entity.Property(e => e.RadicalId).HasColumnName("RADICAL_ID");
+            entity.Property(e => e.RadicalSort).HasColumnName("RADICAL_SORT");
             entity.Property(e => e.RadicalStrokes).HasColumnName("RADICAL_STROKES");
             entity.Property(e => e.RadicalWord)
                 .HasMaxLength(100)
@@ -818,31 +871,57 @@ public partial class ChineseArtworkContext : DbContext
 
         modelBuilder.Entity<RadicalPic>(entity =>
         {
-            entity.HasKey(e => e.RadicalPicId).HasName("PK__radical___45A6F3BB800A86A3");
+            entity.HasKey(e => e.RadicalPicId).HasName("PK__radical___45A6F3BB57960260");
 
             entity.ToTable("radical_pic");
 
             entity.HasIndex(e => e.RadicalId, "idx_radical_pic_radical_id");
 
             entity.Property(e => e.RadicalPicId).HasColumnName("RADICAL_PIC_ID");
+            entity.Property(e => e.RadicalCachePicture)
+                .HasMaxLength(300)
+                .HasColumnName("RADICAL_CACHE_PICTURE");
+            entity.Property(e => e.RadicalCreateBy)
+                .HasMaxLength(100)
+                .HasColumnName("RADICAL_CREATE_BY");
+            entity.Property(e => e.RadicalCreateDate)
+                .HasPrecision(3)
+                .HasDefaultValueSql("(sysdatetime())")
+                .HasColumnName("RADICAL_CREATE_DATE");
             entity.Property(e => e.RadicalId).HasColumnName("RADICAL_ID");
             entity.Property(e => e.RadicalImage)
                 .HasMaxLength(100)
                 .HasColumnName("RADICAL_IMAGE");
+            entity.Property(e => e.RadicalName)
+                .HasMaxLength(100)
+                .HasColumnName("RADICAL_NAME");
             entity.Property(e => e.RadicalPicSort).HasColumnName("RADICAL_PIC_SORT");
             entity.Property(e => e.RadicalPicture)
                 .HasMaxLength(300)
                 .HasColumnName("RADICAL_PICTURE");
+            entity.Property(e => e.RadicalUpdateBy)
+                .HasMaxLength(100)
+                .HasColumnName("RADICAL_UPDATE_BY");
+            entity.Property(e => e.RadicalUpdateDate)
+                .HasPrecision(3)
+                .HasDefaultValueSql("(sysdatetime())")
+                .HasColumnName("RADICAL_UPDATE_DATE");
+            entity.Property(e => e.StyleId).HasColumnName("STYLE_ID");
 
             entity.HasOne(d => d.Radical).WithMany(p => p.RadicalPics)
                 .HasForeignKey(d => d.RadicalId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("radical_pic_radical_fk");
+
+            entity.HasOne(d => d.Style).WithMany(p => p.RadicalPics)
+                .HasForeignKey(d => d.StyleId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("radical_pic_style_fk");
         });
 
         modelBuilder.Entity<Style>(entity =>
         {
-            entity.HasKey(e => e.StyleId).HasName("PK__style__056BC21C573742D3");
+            entity.HasKey(e => e.StyleId).HasName("PK__style__056BC21C216F7F04");
 
             entity.ToTable("style");
 

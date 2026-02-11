@@ -11,6 +11,8 @@ public partial class Radical
 
     public int? RadicalStrokes { get; set; }
 
+    public int? RadicalSort { get; set; }
+
     public virtual ICollection<Dictionary> Dictionaries { get; set; } = new List<Dictionary>();
 
     public virtual ICollection<RadicalPic> RadicalPics { get; set; } = new List<RadicalPic>();

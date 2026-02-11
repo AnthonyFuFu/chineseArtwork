@@ -451,15 +451,17 @@ INSERT INTO famous_artwork_pic (
 CREATE TABLE radical (
     RADICAL_ID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,     -- 部首ID
     RADICAL_WORD NVARCHAR(100) NOT NULL,                   -- 部首
-    RADICAL_STROKES INT                                    -- 部首筆劃數量
+    RADICAL_STROKES INT,                                   -- 部首筆劃數量
+    RADICAL_SORT INT                                       -- 部首排序
 );
 INSERT INTO radical (
     RADICAL_WORD,
-    RADICAL_STROKES
+    RADICAL_STROKES,
+    RADICAL_SORT
 ) VALUES
-(N'水', 4),
-(N'木', 4),
-(N'心', 4);
+(N'水', 4, 1),
+(N'木', 4, 1),
+(N'心', 4, 1);
 -- 部首圖片
 CREATE TABLE radical_pic (
     RADICAL_PIC_ID INT IDENTITY(1,1) NOT NULL PRIMARY KEY, -- 部首圖片ID

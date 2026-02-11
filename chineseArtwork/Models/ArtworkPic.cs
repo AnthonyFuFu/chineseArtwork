@@ -13,6 +13,8 @@ public partial class ArtworkPic
 
     public string? AwPicture { get; set; }
 
+    public string? AwCachePicture { get; set; }
+
     public string? AwImage { get; set; }
 
     public virtual Artwork? Aw { get; set; }

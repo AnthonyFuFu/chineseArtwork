@@ -29,11 +29,11 @@ public partial class Artwork
 
     public int AwIsDel { get; set; }
 
-    public DateTime? AwCreateTime { get; set; }
+    public DateTime? AwCreateDate { get; set; }
 
-    public DateTime? AwUpdateTime { get; set; }
+    public DateTime? AwUpdateDate { get; set; }
 
-    public DateTime? AwSoldTime { get; set; }
+    public DateTime? AwSoldDate { get; set; }
 
     public virtual Artist Art { get; set; } = null!;
 

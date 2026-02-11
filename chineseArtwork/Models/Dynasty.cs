@@ -11,5 +11,7 @@ public partial class Dynasty
 
     public string? DynastyDescription { get; set; }
 
+    public int? DynastySort { get; set; }
+
     public virtual ICollection<Author> Authors { get; set; } = new List<Author>();
 }

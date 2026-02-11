@@ -19,9 +19,13 @@ public partial class FamousArtwork
 
     public int FmsAwStatus { get; set; }
 
-    public DateTime? FmsAwCreateTime { get; set; }
+    public string FmsAwCreateBy { get; set; } = null!;
 
-    public DateTime? FmsAwUpdateTime { get; set; }
+    public DateTime? FmsAwCreateDate { get; set; }
+
+    public string FmsAwUpdateBy { get; set; } = null!;
+
+    public DateTime? FmsAwUpdateDate { get; set; }
 
     public virtual Category Cat { get; set; } = null!;
 

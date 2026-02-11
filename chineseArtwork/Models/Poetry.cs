@@ -21,7 +21,13 @@ public partial class Poetry
 
     public string? PoetryKeywords { get; set; }
 
-    public string PoetryAddedBy { get; set; } = null!;
+    public string PoetryCreateBy { get; set; } = null!;
+
+    public DateTime? PoetryCreateDate { get; set; }
+
+    public string PoetryUpdateBy { get; set; } = null!;
+
+    public DateTime? PoetryUpdateDate { get; set; }
 
     public string? PoetryTranslation { get; set; }
 

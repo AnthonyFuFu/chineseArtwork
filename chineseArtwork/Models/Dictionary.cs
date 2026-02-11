@@ -19,10 +19,6 @@ public partial class Dictionary
 
     public int DictIsDel { get; set; }
 
-    public DateTime? DictCreateTime { get; set; }
-
-    public DateTime? DictUpdateTime { get; set; }
-
     public virtual ICollection<DictionaryPic> DictionaryPics { get; set; } = new List<DictionaryPic>();
 
     public virtual Radical Radical { get; set; } = null!;

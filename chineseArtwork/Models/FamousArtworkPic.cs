@@ -13,7 +13,17 @@ public partial class FamousArtworkPic
 
     public string? FmsAwPicture { get; set; }
 
+    public string? FmsAwCachePicture { get; set; }
+
     public string? FmsAwImage { get; set; }
+
+    public string FmsAwPicCreateBy { get; set; } = null!;
+
+    public DateTime? FmsAwPicCreateDate { get; set; }
+
+    public string FmsAwPicUpdateBy { get; set; } = null!;
+
+    public DateTime? FmsAwPicUpdateDate { get; set; }
 
     public virtual FamousArtwork? FmsAw { get; set; }
 }

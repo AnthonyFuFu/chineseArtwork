@@ -13,9 +13,21 @@ public partial class DictionaryPic
 
     public int? DictPicSort { get; set; }
 
+    public string? DictName { get; set; }
+
     public string? DictPicture { get; set; }
 
+    public string? DictCachePicture { get; set; }
+
     public string? DictImage { get; set; }
+
+    public string DictCreateBy { get; set; } = null!;
+
+    public DateTime? DictCreateDate { get; set; }
+
+    public string DictUpdateBy { get; set; } = null!;
+
+    public DateTime? DictUpdateDate { get; set; }
 
     public virtual Dictionary Dict { get; set; } = null!;
 
