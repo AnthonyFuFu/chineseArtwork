@@ -331,14 +331,14 @@ CREATE TABLE artwork (
     AW_TITLE NVARCHAR(100) NOT NULL,                       -- 作品名稱
     AW_DESCRIPTION NVARCHAR(500) NOT NULL,                 -- 作品說明 / 創作理念
     AW_PRICE DECIMAL(10,2) NOT NULL,                       -- 作品原價
-    AW_CREATED DATETIME2(3),                               -- 創作年月
-    AW_DIMENSION NVARCHAR(100),                            -- 尺寸(長×寬×高)
-    AW_IS_FOR_SALE INT NOT NULL DEFAULT 1,                 -- 販售(0:不販售 1:販售 2:售出)
-    AW_STATUS INT NOT NULL DEFAULT 1,                      -- 展示(0:不展示 1:展示)
-    AW_IS_DEL INT NOT NULL DEFAULT 0,                      -- 刪除(0:未刪除 1:刪除)
-    AW_CREATE_TIME DATETIME2(3) DEFAULT SYSDATETIME(),     -- 建立時間
-    AW_UPDATE_TIME DATETIME2(3) DEFAULT SYSDATETIME(),     -- 修改時間
-    AW_SOLD_TIME DATETIME2(3),                             -- 售出時間
+    AW_CREATED DATETIME2(3),                               -- 作品創作年月
+    AW_DIMENSION NVARCHAR(100),                            -- 作品尺寸(長×寬×高)
+    AW_IS_FOR_SALE INT NOT NULL DEFAULT 1,                 -- 作品販售(0:不販售 1:販售 2:售出)
+    AW_STATUS INT NOT NULL DEFAULT 1,                      -- 作品展示(0:不展示 1:展示)
+    AW_IS_DEL INT NOT NULL DEFAULT 0,                      -- 作品刪除(0:未刪除 1:刪除)
+    AW_CREATE_DATE DATETIME2(3) DEFAULT SYSDATETIME(),     -- 作品建立時間
+    AW_UPDATE_DATE DATETIME2(3) DEFAULT SYSDATETIME(),     -- 作品修改時間
+    AW_SOLD_DATE DATETIME2(3),                             -- 作品售出時間
     CONSTRAINT artwork_artist_fk FOREIGN KEY (ART_ID) REFERENCES artist(ART_ID),
     CONSTRAINT artwork_category_fk FOREIGN KEY (CAT_ID) REFERENCES category(CAT_ID),
     CONSTRAINT artwork_style_fk FOREIGN KEY (STYLE_ID) REFERENCES style(STYLE_ID)
@@ -389,9 +389,11 @@ CREATE TABLE famous_artwork (
     STYLE_ID INT NOT NULL,                                 -- 風格ID
     FMS_AW_TITLE NVARCHAR(100) NOT NULL,                   -- 知名藝術家作品名稱
     FMS_AW_DIMENSION NVARCHAR(100),                        -- 知名藝術家作品尺寸(長×寬×高)
-    FMS_AW_STATUS INT NOT NULL DEFAULT 1,                  -- 展示(0:不展示 1:展示)
-    FMS_AW_CREATE_TIME DATETIME2(3) DEFAULT SYSDATETIME(), -- 建立時間
-    FMS_AW_UPDATE_TIME DATETIME2(3) DEFAULT SYSDATETIME(), -- 修改時間
+    FMS_AW_STATUS INT NOT NULL DEFAULT 1,                  -- 知名藝術家作品展示(0:不展示 1:展示)
+    FMS_AW_CREATE_BY NVARCHAR(100) NOT NULL,               -- 知名藝術家作品建立人
+    FMS_AW_CREATE_DATE DATETIME2(3) DEFAULT SYSDATETIME(), -- 知名藝術家作品建立時間
+    FMS_AW_UPDATE_BY NVARCHAR(100) NOT NULL,               -- 知名藝術家作品修改人
+    FMS_AW_UPDATE_DATE DATETIME2(3) DEFAULT SYSDATETIME(), -- 知名藝術家作品修改時間
     CONSTRAINT famous_artwork_famous_artist_fk FOREIGN KEY (FMS_ART_ID) REFERENCES famous_artist(FMS_ART_ID),
     CONSTRAINT famous_artwork_category_fk FOREIGN KEY (CAT_ID) REFERENCES category(CAT_ID),
     CONSTRAINT famous_artwork_style_fk FOREIGN KEY (STYLE_ID) REFERENCES style(STYLE_ID)
@@ -402,12 +404,14 @@ INSERT INTO famous_artwork (
     STYLE_ID,
     FMS_AW_TITLE, 
     FMS_AW_DIMENSION,
-    FMS_AW_STATUS
+    FMS_AW_STATUS,
+    FMS_AW_CREATE_BY,
+    FMS_AW_UPDATE_BY
 ) VALUES 
-(1, 1, 2, N'四君子篆刻作品', N'10cm x 10cm x 5cm', 1),       -- 作品 1：由王福庵創作，分類:印章，風格:寫意
-(1, 2, 11, N'嵩陽書院草書對聯', N'100cm x 30cm', 1),         -- 作品 2：由王福庵創作，分類:字畫，風格:寫意
-(2, 3, 4, N'螞蟻工筆畫', N'20cm x 20cm', 1),                -- 作品 3：由齊白石創作，分類:畫作，風格:寫意
-(2, 3, 2, N'荷花寫意畫', N'50cm x 70cm', 1);                -- 作品 4：由齊白石創作，分類:畫作，風格:寫意
+(1, 1, 2, N'四君子篆刻作品', N'10cm x 10cm x 5cm', 1, N'傅勝宏', N'傅勝宏'), -- 作品 1：由王福庵創作，分類:印章，風格:寫意
+(1, 2, 11, N'嵩陽書院草書對聯', N'100cm x 30cm', 1, N'傅勝宏', N'傅勝宏'),   -- 作品 2：由王福庵創作，分類:字畫，風格:寫意
+(2, 3, 4, N'螞蟻工筆畫', N'20cm x 20cm', 1, N'傅勝宏', N'傅勝宏'),          -- 作品 3：由齊白石創作，分類:畫作，風格:寫意
+(2, 3, 2, N'荷花寫意畫', N'50cm x 70cm', 1, N'傅勝宏', N'傅勝宏');          -- 作品 4：由齊白石創作，分類:畫作，風格:寫意
 -- 知名藝術家作品圖片
 CREATE TABLE famous_artwork_pic (
     FMS_AW_PIC_ID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,  -- 知名藝術家作品圖片ID
@@ -416,6 +420,10 @@ CREATE TABLE famous_artwork_pic (
     FMS_AW_PICTURE VARCHAR(300),                           -- 知名藝術家作品圖片路徑
     FMS_AW_CACHE_PICTURE VARCHAR(300),                     -- 知名藝術家作品圖片快取路徑
     FMS_AW_IMAGE VARCHAR(100),                             -- 知名藝術家作品圖片名稱
+    FMS_AW_PIC_CREATE_BY NVARCHAR(100) NOT NULL,              -- 知名藝術家作品圖片建立人
+    FMS_AW_PIC_CREATE_DATE DATETIME2(3) DEFAULT SYSDATETIME(),-- 知名藝術家作品圖片建立時間
+    FMS_AW_PIC_UPDATE_BY NVARCHAR(100) NOT NULL,              -- 知名藝術家作品圖片修改人
+    FMS_AW_PIC_UPDATE_DATE DATETIME2(3) DEFAULT SYSDATETIME(),-- 知名藝術家作品圖片修改時間
     CONSTRAINT famous_artwork_pic_famous_artwork_fk FOREIGN KEY (FMS_AW_ID) REFERENCES famous_artwork(FMS_AW_ID)
 );
 INSERT INTO famous_artwork_pic (
@@ -423,20 +431,22 @@ INSERT INTO famous_artwork_pic (
     FMS_AW_PIC_SORT,
     FMS_AW_PICTURE,
     FMS_AW_CACHE_PICTURE,
-    FMS_AW_IMAGE
+    FMS_AW_IMAGE,
+    FMS_AW_PIC_CREATE_BY,
+    FMS_AW_PIC_UPDATE_BY
 ) VALUES 
 -- 四君子篆刻作品 (ID: 1)
-(1, 1, N'/upload/images/famousArtworkPic/four_gentlemen_carving_1.jpg', N'/upload/images/cache/famousArtworkPic/four_gentlemen_carving_1.jpg', N'four_gentlemen_carving_1.jpg'),
-(1, 2, N'/upload/images/famousArtworkPic/four_gentlemen_carving_2.jpg', N'/upload/images/cache/famousArtworkPic/four_gentlemen_carving_2.jpg', N'four_gentlemen_carving_2.jpg'),
+(1, 1, N'/upload/images/famousArtworkPic/four_gentlemen_carving_1.jpg', N'/upload/images/cache/famousArtworkPic/four_gentlemen_carving_1.jpg', N'four_gentlemen_carving_1.jpg', N'傅勝宏', N'傅勝宏'),
+(1, 2, N'/upload/images/famousArtworkPic/four_gentlemen_carving_2.jpg', N'/upload/images/cache/famousArtworkPic/four_gentlemen_carving_2.jpg', N'four_gentlemen_carving_2.jpg', N'傅勝宏', N'傅勝宏'),
 -- 嵩陽書院草書對聯 (ID: 2)
-(2, 1, N'/upload/images/famousArtworkPic/songyang_grass_script_couplet_1.jpg', N'/upload/images/cache/famousArtworkPic/songyang_grass_script_couplet_1.jpg', N'songyang_grass_script_couplet_1.jpg'),
-(2, 2, N'/upload/images/famousArtworkPic/songyang_grass_script_couplet_2.jpg', N'/upload/images/cache/famousArtworkPic/songyang_grass_script_couplet_2.jpg', N'songyang_grass_script_couplet_2.jpg'),
+(2, 1, N'/upload/images/famousArtworkPic/songyang_grass_script_couplet_1.jpg', N'/upload/images/cache/famousArtworkPic/songyang_grass_script_couplet_1.jpg', N'songyang_grass_script_couplet_1.jpg', N'傅勝宏', N'傅勝宏'),
+(2, 2, N'/upload/images/famousArtworkPic/songyang_grass_script_couplet_2.jpg', N'/upload/images/cache/famousArtworkPic/songyang_grass_script_couplet_2.jpg', N'songyang_grass_script_couplet_2.jpg', N'傅勝宏', N'傅勝宏'),
 -- 螞蟻工筆畫 (ID: 3)
-(3, 1, N'/upload/images/famousArtworkPic/ant_gongbi_1.jpg', N'/upload/images/cache/famousArtworkPic/ant_gongbi_1.jpg', N'ant_gongbi_1.jpg'),
-(3, 2, N'/upload/images/famousArtworkPic/ant_gongbi_2.jpg', N'/upload/images/cache/famousArtworkPic/ant_gongbi_2.jpg', N'ant_gongbi_2.jpg'),
+(3, 1, N'/upload/images/famousArtworkPic/ant_gongbi_1.jpg', N'/upload/images/cache/famousArtworkPic/ant_gongbi_1.jpg', N'ant_gongbi_1.jpg', N'傅勝宏', N'傅勝宏'),
+(3, 2, N'/upload/images/famousArtworkPic/ant_gongbi_2.jpg', N'/upload/images/cache/famousArtworkPic/ant_gongbi_2.jpg', N'ant_gongbi_2.jpg', N'傅勝宏', N'傅勝宏'),
 -- 荷花寫意畫 (ID: 4)
-(4, 1, N'/upload/images/famousArtworkPic/lotus_freehand_1.jpg', N'/upload/images/cache/famousArtworkPic/lotus_freehand_1.jpg', N'lotus_freehand_1.jpg'),
-(4, 2, N'/upload/images/famousArtworkPic/lotus_freehand_2.jpg', N'/upload/images/cache/famousArtworkPic/lotus_freehand_2.jpg', N'lotus_freehand_2.jpg');
+(4, 1, N'/upload/images/famousArtworkPic/lotus_freehand_1.jpg', N'/upload/images/cache/famousArtworkPic/lotus_freehand_1.jpg', N'lotus_freehand_1.jpg', N'傅勝宏', N'傅勝宏'),
+(4, 2, N'/upload/images/famousArtworkPic/lotus_freehand_2.jpg', N'/upload/images/cache/famousArtworkPic/lotus_freehand_2.jpg', N'lotus_freehand_2.jpg', N'傅勝宏', N'傅勝宏');
 -- 部首
 CREATE TABLE radical (
     RADICAL_ID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,     -- 部首ID
@@ -463,7 +473,7 @@ CREATE TABLE radical_pic (
     RADICAL_CREATE_BY NVARCHAR(100) NOT NULL,              -- 部首圖片建立人
     RADICAL_CREATE_DATE DATETIME2(3) DEFAULT SYSDATETIME(),-- 部首圖片建立時間
     RADICAL_UPDATE_BY NVARCHAR(100) NOT NULL,              -- 部首圖片修改人
-    RADICAL_UPDATE_DATE DATETIME2(3) DEFAULT SYSDATETIME(),-- 部首圖片建立時間
+    RADICAL_UPDATE_DATE DATETIME2(3) DEFAULT SYSDATETIME(),-- 部首圖片修改時間
     CONSTRAINT radical_pic_radical_fk FOREIGN KEY (RADICAL_ID) REFERENCES radical(RADICAL_ID),
     CONSTRAINT radical_pic_style_fk FOREIGN KEY (STYLE_ID) REFERENCES style(STYLE_ID)
 );
@@ -490,8 +500,6 @@ CREATE TABLE dictionary (
     DICT_STROKES INT NOT NULL,                             -- 文字筆劃數量
     DICT_STATUS INT NOT NULL DEFAULT 1,                    -- 展示(0:不展示 1:展示)
     DICT_IS_DEL INT NOT NULL DEFAULT 0,                    -- 刪除(0:未刪除 1:刪除)
-    DICT_CREATE_TIME DATETIME2(3) DEFAULT SYSDATETIME(),   -- 建立時間
-    DICT_UPDATE_TIME DATETIME2(3) DEFAULT SYSDATETIME(),   -- 修改時間
     CONSTRAINT dictionary_radical_fk FOREIGN KEY (RADICAL_ID) REFERENCES radical(RADICAL_ID)
 );
 INSERT INTO dictionary (
@@ -515,10 +523,10 @@ CREATE TABLE dictionary_pic (
     DICT_PICTURE NVARCHAR(300),                            -- 字典圖片路徑
     DICT_CACHE_PICTURE NVARCHAR(300),                      -- 字典圖片快取路徑
     DICT_IMAGE NVARCHAR(100),                              -- 字典圖片名稱
-    DICT_CREATE_BY NVARCHAR(100) NOT NULL,                 -- 部首圖片建立人
-    DICT_CREATE_DATE DATETIME2(3) DEFAULT SYSDATETIME(),   -- 部首圖片建立時間
-    DICT_UPDATE_BY NVARCHAR(100) NOT NULL,                 -- 部首圖片修改人
-    DICT_UPDATE_DATE DATETIME2(3) DEFAULT SYSDATETIME(),   -- 部首圖片建立時間
+    DICT_CREATE_BY NVARCHAR(100) NOT NULL,                 -- 字典圖片建立人
+    DICT_CREATE_DATE DATETIME2(3) DEFAULT SYSDATETIME(),   -- 字典圖片建立時間
+    DICT_UPDATE_BY NVARCHAR(100) NOT NULL,                 -- 字典圖片修改人
+    DICT_UPDATE_DATE DATETIME2(3) DEFAULT SYSDATETIME(),   -- 字典圖片修改時間
     CONSTRAINT dictionary_pic_dictionary_fk FOREIGN KEY (DICT_ID) REFERENCES dictionary(DICT_ID),
     CONSTRAINT dictionary_pic_style_fk FOREIGN KEY (STYLE_ID) REFERENCES style(STYLE_ID)
 );
@@ -540,17 +548,19 @@ INSERT INTO dictionary_pic (
 CREATE TABLE dynasty (
     DYNASTY_ID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,     -- 朝代ID
     DYNASTY_NAME NVARCHAR(50) NOT NULL,                    -- 朝代名稱（例如：唐、宋、元）
-    DYNASTY_DESCRIPTION NVARCHAR(500)                      -- 朝代描述（選填，例如該時代背景、歷史事件等）
+    DYNASTY_DESCRIPTION NVARCHAR(500),                     -- 朝代描述（選填，例如該時代背景、歷史事件等）
+    DYNASTY_SORT INT
 );
 INSERT INTO dynasty (
     DYNASTY_NAME,
-    DYNASTY_DESCRIPTION
+    DYNASTY_DESCRIPTION,
+    DYNASTY_SORT
 ) VALUES 
-(N'周', N'中國曆史上存在時間最長的朝代。分為西周和東周，其中東周又分為春秋和戰國時期。'),
-(N'秦', N'統一天下的第一個封建王朝，歷時約15年。'),
-(N'漢', N'分為西漢與東漢，是中國歷史上重要的封建王朝。'),
-(N'唐', N'詩歌文化繁榮的時代，中國古代歷史的盛世。'),
-(N'宋', N'宋代分為北宋和南宋，經濟文化高度發展。');
+(N'周', N'中國曆史上存在時間最長的朝代。分為西周和東周，其中東周又分為春秋和戰國時期。',1),
+(N'秦', N'統一天下的第一個封建王朝，歷時約15年。',2),
+(N'漢', N'分為西漢與東漢，是中國歷史上重要的封建王朝。',3),
+(N'唐', N'詩歌文化繁榮的時代，中國古代歷史的盛世。',4),
+(N'宋', N'宋代分為北宋和南宋，經濟文化高度發展。',5);
 -- 詩詞作者
 CREATE TABLE author (
     AUTHOR_ID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,      -- 詩詞作者ID
@@ -584,7 +594,10 @@ CREATE TABLE poetry (
     POETRY_ANALYSIS NTEXT,                                 -- 詩詞賞析
     POETRY_CATEGORY NVARCHAR(100),                         -- 詩詞主題分類
     POETRY_KEYWORDS NVARCHAR(500),                         -- 詩詞關鍵詞
-    POETRY_ADDED_BY NVARCHAR(100) NOT NULL,                -- 收錄者（管理者）
+    POETRY_CREATE_BY NVARCHAR(100) NOT NULL,               -- 詩詞建立人
+    POETRY_CREATE_DATE DATETIME DEFAULT SYSDATETIME(),     -- 詩詞建立時間
+    POETRY_UPDATE_BY NVARCHAR(100) NOT NULL,               -- 詩詞修改人
+    POETRY_UPDATE_DATE DATETIME DEFAULT SYSDATETIME(),     -- 詩詞修改時間
     POETRY_TRANSLATION NTEXT,                              -- 詩詞翻譯
     CONSTRAINT poetry_author_fk FOREIGN KEY (AUTHOR_ID) REFERENCES author(AUTHOR_ID)
 );
@@ -596,13 +609,14 @@ INSERT INTO poetry (
     POETRY_ANALYSIS,
     POETRY_CATEGORY,
     POETRY_KEYWORDS,
-    POETRY_ADDED_BY,
-    POETRY_TRANSLATION
+    POETRY_TRANSLATION,
+    POETRY_CREATE_BY,
+    POETRY_UPDATE_BY
 ) VALUES 
-(1, N'靜夜思', N'床前明月光，疑是地上霜。舉頭望明月，低頭思故鄉。', 20, N'這是一首短小卻讓人回味無窮的田園詩，表達了漂泊異鄉的孤獨與濃厚的思鄉之情。', N'思鄉', N'月光, 思鄉, 故鄉', 'admin', 'Before my bed, the moonlight shines, resembling frost on the ground. Looking up I see the bright moon, then looking down I miss home.'),
-(2, N'春望', N'國破山河在，城春草木深。感時花濺淚，恨別鳥驚心。烽火連三月，家書抵萬金。白頭搔更短，渾欲不勝簪。', 56, N'此詩主要表現的是杜甫對戰亂之苦的憂世之心，著重表現對國破家亡的哀愁之情。', N'時政', N'戰爭, 思鄉, 愛國', 'admin', 'The country’s ruined, but hills and rivers remain. In spring, flowering plants and trees exude sadness. Warflare lasts three months, a word from home is worth its weight in gold. I scratch my graying hair in anxiety until it’s too thin to hold my hairpin.'),
-(3, N'水調歌頭·明月幾時有', N'明月幾時有？把酒問青天。不知天上宮闕，今夕是何年？我欲乘風歸去，唯恐瓊樓玉宇，高處不勝寒。起舞弄清影，何似在人間！\n轉朱閣，低綺戶，照無眠。不應有恨，何事長向別時圓！人有悲歡離合，月有陰晴圓缺，此事古難全。但願人長久，千里共嬋娟。', 129,N'極富哲理的詞作，反映了對人生、親情的思考，通過月亮的陰晴圓缺象徵生活中的聚散離別。',N'哲理',N'月亮, 哲理, 思念', 'admin','When will the moon be bright and clear? / With a cup of wine in my hand, I ask the sky. / In the heavens on this night, I wonder what year it would be.'),
-(4, N'青玉案·元夕', N'東風夜放花千樹。更吹落、星如雨。寶馬雕車香滿路。鳳簫聲動，玉壺光轉，一夜魚龍舞。\n蛾兒雪柳黃金縷。笑語盈盈暗香去。眾裏尋他千百度。驀然回首，那人卻在，燈火闌珊處。', 117, N'這首詞以華麗浪漫的筆調描寫元宵佳節的熱鬧景象，結尾處抒發了對愛情的執著與美好的憧憬。', N'愛情',N'元宵節, 愛情, 喜悅', 'admin','The east wind brings to life a thousand blossoming trees, / And blows down stars in showers to the ground. / Jewelled horse carriages fill the fragrant lanes, / The phoenix flute plays, jade pot of light turns, / One whole night of fish and dragon dance. / I look for her in vain, / When at last I turn round, / There she is, by the lanterns dimly lit.');
+(1, N'靜夜思', N'床前明月光，疑是地上霜。舉頭望明月，低頭思故鄉。', 20, N'這是一首短小卻讓人回味無窮的田園詩，表達了漂泊異鄉的孤獨與濃厚的思鄉之情。', N'思鄉', N'月光, 思鄉, 故鄉', 'Before my bed, the moonlight shines, resembling frost on the ground. Looking up I see the bright moon, then looking down I miss home.', N'傅勝宏', N'傅勝宏'),
+(2, N'春望', N'國破山河在，城春草木深。感時花濺淚，恨別鳥驚心。烽火連三月，家書抵萬金。白頭搔更短，渾欲不勝簪。', 56, N'此詩主要表現的是杜甫對戰亂之苦的憂世之心，著重表現對國破家亡的哀愁之情。', N'時政', N'戰爭, 思鄉, 愛國', 'The country’s ruined, but hills and rivers remain. In spring, flowering plants and trees exude sadness. Warflare lasts three months, a word from home is worth its weight in gold. I scratch my graying hair in anxiety until it’s too thin to hold my hairpin.', N'傅勝宏', N'傅勝宏'),
+(3, N'水調歌頭·明月幾時有', N'明月幾時有？把酒問青天。不知天上宮闕，今夕是何年？我欲乘風歸去，唯恐瓊樓玉宇，高處不勝寒。起舞弄清影，何似在人間！\n轉朱閣，低綺戶，照無眠。不應有恨，何事長向別時圓！人有悲歡離合，月有陰晴圓缺，此事古難全。但願人長久，千里共嬋娟。', 129,N'極富哲理的詞作，反映了對人生、親情的思考，通過月亮的陰晴圓缺象徵生活中的聚散離別。',N'哲理',N'月亮, 哲理, 思念','When will the moon be bright and clear? / With a cup of wine in my hand, I ask the sky. / In the heavens on this night, I wonder what year it would be.', N'傅勝宏', N'傅勝宏'),
+(4, N'青玉案·元夕', N'東風夜放花千樹。更吹落、星如雨。寶馬雕車香滿路。鳳簫聲動，玉壺光轉，一夜魚龍舞。\n蛾兒雪柳黃金縷。笑語盈盈暗香去。眾裏尋他千百度。驀然回首，那人卻在，燈火闌珊處。', 117, N'這首詞以華麗浪漫的筆調描寫元宵佳節的熱鬧景象，結尾處抒發了對愛情的執著與美好的憧憬。', N'愛情',N'元宵節, 愛情, 喜悅','The east wind brings to life a thousand blossoming trees, / And blows down stars in showers to the ground. / Jewelled horse carriages fill the fragrant lanes, / The phoenix flute plays, jade pot of light turns, / One whole night of fish and dragon dance. / I look for her in vain, / When at last I turn round, / There she is, by the lanterns dimly lit.', N'傅勝宏', N'傅勝宏');
 -- 建立index
 -- artwork 表相關
 CREATE INDEX idx_artwork_artist_id ON artwork (ART_ID);
@@ -618,7 +632,7 @@ CREATE INDEX idx_dictionary_radical_id ON dictionary(RADICAL_ID);
 CREATE INDEX idx_dictionary_pic_dict_id ON dictionary_pic(DICT_ID);
 -- poetry 詩詞表相關
 CREATE INDEX idx_poetry_author_id ON poetry (AUTHOR_ID);
-CREATE INDEX idx_poetry_added_by ON poetry (POETRY_ADDED_BY);
+CREATE INDEX idx_poetry_create_by ON poetry (POETRY_CREATE_BY);
 -- author 作者表相關
 CREATE INDEX idx_author_dynasty_id ON author (DYNASTY_ID);
 -- member 表相關
