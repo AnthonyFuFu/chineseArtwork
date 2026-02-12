@@ -3,6 +3,7 @@ using chineseArtwork.Dao.Interfaces;
 using chineseArtwork.Models;
 using chineseArtwork.Services.Implementations;
 using chineseArtwork.Services.Interfaces;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,9 +14,22 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ChineseArtworkContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ChineseArtworkConnection")));
 
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/admin/login";
+        options.AccessDeniedPath = "/admin/access-denied";
+        options.ExpireTimeSpan = TimeSpan.FromDays(7);
+    });
+
+builder.Services.AddAuthorization();
+
+
 builder.Services.AddScoped<IMemberDao, MemberDao>();
 
 builder.Services.AddScoped<IMemberService, MemberService>();
+
+builder.Services.AddScoped<IPasswordService, PasswordService>();
 
 builder.Services.AddRazorPages();
 

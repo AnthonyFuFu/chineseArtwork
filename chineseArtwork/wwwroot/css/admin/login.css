@@ -1027,3 +1027,24 @@ span.sin-color {
 
 
 /*--meadia quries end here--*/
+
+.validation-error {
+    color: #ff0000;
+    margin-top: 5px;
+    font-size: 0.9em;
+}
+
+.alert-danger {
+    color: #ff0000;
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: rgba(255, 0, 0, 0.1);
+    border: 1px solid #ff0000;
+    border-radius: 4px;
+}
+.text-danger {
+    color: #ff0000;
+    display: block;
+    margin-top: 5px;
+    font-size: 0.9em;
+}
