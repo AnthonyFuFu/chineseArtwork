@@ -728,10 +728,10 @@ CREATE TABLE dictionary (
     DICT_WORD NVARCHAR(20) NOT NULL,                       -- 文字
     DICT_DESCRIPTION NVARCHAR(500),                        -- 說文解字
     DICT_STROKES INT NOT NULL,                             -- 文字筆劃數量
-    DICT_STATUS INT NOT NULL DEFAULT 1,                    -- 展示(0:不展示 1:展示)
-    DICT_IS_DEL INT NOT NULL DEFAULT 0,                    -- 刪除(0:未刪除 1:刪除)
+    DICT_TATOL_STROKES INT NOT NULL,                       -- 文字總筆劃數量
     CONSTRAINT dictionary_radical_fk FOREIGN KEY (RADICAL_ID) REFERENCES radical(RADICAL_ID)
 );
+-- 資料過多 到時候由程式端匯入資料 先暫放假資料
 INSERT INTO dictionary (
     RADICAL_ID,
     DICT_WORD,

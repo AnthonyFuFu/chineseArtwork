@@ -17,9 +17,11 @@ builder.Services.AddDbContext<ChineseArtworkContext>(options =>
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = "/admin/login";
-        options.AccessDeniedPath = "/admin/access-denied";
+        options.LoginPath = "/Admin/Account/Login";
+        options.LogoutPath = "/Admin/Account/Logout";
+        options.AccessDeniedPath = "/Admin/Account/Login";
         options.ExpireTimeSpan = TimeSpan.FromDays(7);
+
     });
 
 builder.Services.AddAuthorization();
@@ -50,6 +52,10 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "default",

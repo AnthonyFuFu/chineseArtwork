@@ -1,0 +1,70 @@
+﻿@using chineseArtwork.Areas.Admin.ViewModels
+@model LoginViewModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Chinese Artwork Login</title>
+    <script src="~/lib/jquery/dist/jquery.js" asp-append-version="true"></script>
+    <link href="~/css/admin/login.css" rel="stylesheet" type="text/css" media="all">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Classy Login form Responsive, Login form web template, Sign up Web Templates, Flat Web Templates, Login signup Responsive web template, Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design">
+    <!--Google Fonts-->
+    <link href="~/css/admin/css" rel="stylesheet" type="text/css">
+    <style data-id="immersive-translate-input-injected-css"></style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="header-main">
+            <h1>Chinese Artwork Login</h1>
+            <div class="header-bottom">
+                <div class="header-right w3agile">
+                    <div class="header-left-bottom agileinfo">
+                        @if (!ViewContext.ModelState.IsValid)
+                        {
+                            <div class="alert alert-danger">
+                                @foreach (var modelState in ViewContext.ModelState.Values)
+                                {
+                                    foreach (var error in modelState.Errors)
+                                    {
+                                        <div>@error.ErrorMessage</div>
+                                    }
+                                }
+                            </div>
+                        }
+                        <form method="post" asp-area="Admin" asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]">
+                            @Html.AntiForgeryToken()
+                            <span asp-validation-for="Account" class="text-danger"></span>
+                            <input type="text" asp-for="Account" placeholder="帳號" required>
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                            <input type="password" asp-for="Password" placeholder="密碼" required>
+                            <div class="remember">
+                                <span class="checkbox1">
+                                    <label class="checkbox"><input type="checkbox" asp-for="RememberMe"><i></i>記住我</label>
+                                </span>
+                                <div class="forgot">
+                                    <h6><a href="@Url.Action("ResetPassword")">忘記密碼?</a></h6>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <input type="submit" value="Login">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="copyright">
+        <p>© 2026 Login Form. All rights reserved</p>
+    </div>
+    <script src="~/js/admin/login.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+</body>
+</html>
