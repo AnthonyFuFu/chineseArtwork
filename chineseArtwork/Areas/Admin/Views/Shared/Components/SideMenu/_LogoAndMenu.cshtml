@@ -1,4 +1,8 @@
-﻿<div class="logo_box">
+﻿@{
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+    var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+}
+<div class="logo_box">
     <a asp-controller="Dashboard" asp-action="Index">
         <img src="~/images/admin/logo.png" alt="cocoon" />
     </a>
@@ -6,23 +10,29 @@
 
 <div class="side_menu_section">
     <ul class="menu_nav">
-        <li>
+        <li class="@(currentController == "Dashboard" ? "active" : "")">
             <a asp-controller="Dashboard" asp-action="Index">Dashboard</a>
         </li>
-        <li>
+        <li class="@(currentController == "AboutMe" ? "active" : "")">
+            <a asp-controller="AboutMe" asp-action="Index">AboutMe</a>
+        </li>
+        <li class="@(currentController == "Dictionary" ? "active" : "")">
             <a asp-controller="Dictionary" asp-action="Index">Dictionary</a>
         </li>
-        <li>
-            <a asp-controller="Home" asp-action="Services">Services</a>
+        <li class="@(currentController == "FamousArtist" ? "active" : "")">
+            <a asp-controller="FamousArtist" asp-action="Index">FamousArtist</a>
         </li>
-        <li>
-            <a asp-controller="Home" asp-action="Portfolio">Portfolio</a>
+        <li class="@(currentController == "Group" ? "active" : "")">
+            <a asp-controller="Group" asp-action="Index">Group</a>
         </li>
-        <li>
-            <a asp-controller="Home" asp-action="Blog">Blog</a>
+        <li class="@(currentController == "News" ? "active" : "")">
+            <a asp-controller="News" asp-action="Index">News</a>
         </li>
-        <li>
-            <a asp-controller="Home" asp-action="Contact">Contact</a>
+        <li class="@(currentController == "Poetry" ? "active" : "")">
+            <a asp-controller="Poetry" asp-action="Index">Poetry</a>
+        </li>
+        <li class="@(currentController == "Setting" ? "active" : "")">
+            <a asp-controller="Setting" asp-action="Index">Setting</a>
         </li>
     </ul>
 </div>

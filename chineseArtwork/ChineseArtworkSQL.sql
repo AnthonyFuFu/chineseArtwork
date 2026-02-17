@@ -107,6 +107,7 @@ CREATE TABLE [message] (
     MSG_DIRECTION INT NOT NULL,                            -- 發送方向(0:藝術家對會員 1:會員對藝術家)
     MSG_PICTURE NVARCHAR(300),                             -- 聊天圖片路徑
     MSG_IMAGE NVARCHAR(100),                               -- 聊天圖片名稱
+    CONSTRAINT message_artist_fk FOREIGN KEY (ART_ID) REFERENCES artist (ART_ID),
     CONSTRAINT message_member_fk FOREIGN KEY (MEM_ID) REFERENCES [member] (MEM_ID),
     CONSTRAINT message_chat_room_fk FOREIGN KEY (ROOM_ID) REFERENCES chat_room(ROOM_ID)
 );
