@@ -15,9 +15,7 @@ public partial class Dictionary
 
     public int DictStrokes { get; set; }
 
-    public int DictStatus { get; set; }
-
-    public int DictIsDel { get; set; }
+    public int DictTatolStrokes { get; set; }
 
     public virtual ICollection<DictionaryPic> DictionaryPics { get; set; } = new List<DictionaryPic>();
 

@@ -70,7 +70,7 @@ public partial class ChineseArtworkContext : DbContext
     {
         modelBuilder.Entity<Artist>(entity =>
         {
-            entity.HasKey(e => e.ArtId).HasName("PK__artist__FCD63107AB2838A0");
+            entity.HasKey(e => e.ArtId).HasName("PK__artist__FCD63107269116C0");
 
             entity.ToTable("artist");
 
@@ -130,7 +130,7 @@ public partial class ChineseArtworkContext : DbContext
 
         modelBuilder.Entity<Artwork>(entity =>
         {
-            entity.HasKey(e => e.AwId).HasName("PK__artwork__64D812B27A65DECC");
+            entity.HasKey(e => e.AwId).HasName("PK__artwork__64D812B237A5121D");
 
             entity.ToTable("artwork");
 
@@ -196,7 +196,7 @@ public partial class ChineseArtworkContext : DbContext
 
         modelBuilder.Entity<ArtworkPic>(entity =>
         {
-            entity.HasKey(e => e.AwPicId).HasName("PK__artwork___02B3E5F8D91AFA43");
+            entity.HasKey(e => e.AwPicId).HasName("PK__artwork___02B3E5F80C654B32");
 
             entity.ToTable("artwork_pic");
 
@@ -223,7 +223,7 @@ public partial class ChineseArtworkContext : DbContext
 
         modelBuilder.Entity<Association>(entity =>
         {
-            entity.HasKey(e => e.AssocId).HasName("PK__associat__E84AB27FCA595A68");
+            entity.HasKey(e => e.AssocId).HasName("PK__associat__E84AB27FD55151EB");
 
             entity.ToTable("association");
 
@@ -260,7 +260,7 @@ public partial class ChineseArtworkContext : DbContext
 
         modelBuilder.Entity<Author>(entity =>
         {
-            entity.HasKey(e => e.AuthorId).HasName("PK__author__A839814541C4A034");
+            entity.HasKey(e => e.AuthorId).HasName("PK__author__A839814560B82EAC");
 
             entity.ToTable("author");
 
@@ -315,7 +315,7 @@ public partial class ChineseArtworkContext : DbContext
 
         modelBuilder.Entity<Banner>(entity =>
         {
-            entity.HasKey(e => e.BanId).HasName("PK__banner__DA9979A1E0B33A29");
+            entity.HasKey(e => e.BanId).HasName("PK__banner__DA9979A16EF66505");
 
             entity.ToTable("banner");
 
@@ -338,7 +338,7 @@ public partial class ChineseArtworkContext : DbContext
 
         modelBuilder.Entity<Category>(entity =>
         {
-            entity.HasKey(e => e.CatId).HasName("PK__category__5F8323A89B139EF2");
+            entity.HasKey(e => e.CatId).HasName("PK__category__5F8323A89A81FBA7");
 
             entity.ToTable("category");
 
@@ -356,7 +356,7 @@ public partial class ChineseArtworkContext : DbContext
 
         modelBuilder.Entity<ChatRoom>(entity =>
         {
-            entity.HasKey(e => e.RoomId).HasName("PK__chat_roo__2F3DD48219F0657B");
+            entity.HasKey(e => e.RoomId).HasName("PK__chat_roo__2F3DD482CB2368BB");
 
             entity.ToTable("chat_room");
 
@@ -379,7 +379,7 @@ public partial class ChineseArtworkContext : DbContext
 
         modelBuilder.Entity<Dictionary>(entity =>
         {
-            entity.HasKey(e => e.DictId).HasName("PK__dictiona__CB0CC84078893000");
+            entity.HasKey(e => e.DictId).HasName("PK__dictiona__CB0CC840742D3D3D");
 
             entity.ToTable("dictionary");
 
@@ -389,11 +389,8 @@ public partial class ChineseArtworkContext : DbContext
             entity.Property(e => e.DictDescription)
                 .HasMaxLength(500)
                 .HasColumnName("DICT_DESCRIPTION");
-            entity.Property(e => e.DictIsDel).HasColumnName("DICT_IS_DEL");
-            entity.Property(e => e.DictStatus)
-                .HasDefaultValue(1)
-                .HasColumnName("DICT_STATUS");
             entity.Property(e => e.DictStrokes).HasColumnName("DICT_STROKES");
+            entity.Property(e => e.DictTatolStrokes).HasColumnName("DICT_TATOL_STROKES");
             entity.Property(e => e.DictWord)
                 .HasMaxLength(20)
                 .HasColumnName("DICT_WORD");
@@ -407,7 +404,7 @@ public partial class ChineseArtworkContext : DbContext
 
         modelBuilder.Entity<DictionaryPic>(entity =>
         {
-            entity.HasKey(e => e.DictPicId).HasName("PK__dictiona__1E22D66ACC39B7E8");
+            entity.HasKey(e => e.DictPicId).HasName("PK__dictiona__1E22D66A8CBD0E53");
 
             entity.ToTable("dictionary_pic");
 
@@ -457,7 +454,7 @@ public partial class ChineseArtworkContext : DbContext
 
         modelBuilder.Entity<Dynasty>(entity =>
         {
-            entity.HasKey(e => e.DynastyId).HasName("PK__dynasty__FD518255C78213FA");
+            entity.HasKey(e => e.DynastyId).HasName("PK__dynasty__FD518255B6327888");
 
             entity.ToTable("dynasty");
 
@@ -473,7 +470,7 @@ public partial class ChineseArtworkContext : DbContext
 
         modelBuilder.Entity<FamousArtist>(entity =>
         {
-            entity.HasKey(e => e.FmsArtId).HasName("PK__famous_a__ACBD812D40D71503");
+            entity.HasKey(e => e.FmsArtId).HasName("PK__famous_a__ACBD812D6B75E805");
 
             entity.ToTable("famous_artist");
 
@@ -510,7 +507,7 @@ public partial class ChineseArtworkContext : DbContext
 
         modelBuilder.Entity<FamousArtwork>(entity =>
         {
-            entity.HasKey(e => e.FmsAwId).HasName("PK__famous_a__1F642E3284840C12");
+            entity.HasKey(e => e.FmsAwId).HasName("PK__famous_a__1F642E32BB3E98A4");
 
             entity.ToTable("famous_artwork");
 
@@ -564,7 +561,7 @@ public partial class ChineseArtworkContext : DbContext
 
         modelBuilder.Entity<FamousArtworkPic>(entity =>
         {
-            entity.HasKey(e => e.FmsAwPicId).HasName("PK__famous_a__3F07386777E4D68B");
+            entity.HasKey(e => e.FmsAwPicId).HasName("PK__famous_a__3F073867A08AED4E");
 
             entity.ToTable("famous_artwork_pic");
 
@@ -605,7 +602,7 @@ public partial class ChineseArtworkContext : DbContext
 
         modelBuilder.Entity<Function>(entity =>
         {
-            entity.HasKey(e => e.FuncId).HasName("PK__function__68DC742694A04150");
+            entity.HasKey(e => e.FuncId).HasName("PK__function__68DC74269DB3C96E");
 
             entity.ToTable("function");
 
@@ -633,7 +630,7 @@ public partial class ChineseArtworkContext : DbContext
 
         modelBuilder.Entity<GroupInfo>(entity =>
         {
-            entity.HasKey(e => e.GroupId).HasName("PK__group_in__3EFEA3DE9F6006FA");
+            entity.HasKey(e => e.GroupId).HasName("PK__group_in__3EFEA3DE52BCBBB1");
 
             entity.ToTable("group_info");
 
@@ -668,7 +665,7 @@ public partial class ChineseArtworkContext : DbContext
 
         modelBuilder.Entity<Member>(entity =>
         {
-            entity.HasKey(e => e.MemId).HasName("PK__member__1B42917C730EA852");
+            entity.HasKey(e => e.MemId).HasName("PK__member__1B42917C52D4DB48");
 
             entity.ToTable("member");
 
@@ -729,7 +726,7 @@ public partial class ChineseArtworkContext : DbContext
 
         modelBuilder.Entity<Message>(entity =>
         {
-            entity.HasKey(e => e.MsgId).HasName("PK__message__825DA51C5908887F");
+            entity.HasKey(e => e.MsgId).HasName("PK__message__825DA51CF77839A1");
 
             entity.ToTable("message");
 
@@ -752,6 +749,11 @@ public partial class ChineseArtworkContext : DbContext
                 .HasColumnName("MSG_TIME");
             entity.Property(e => e.RoomId).HasColumnName("ROOM_ID");
 
+            entity.HasOne(d => d.Art).WithMany(p => p.Messages)
+                .HasForeignKey(d => d.ArtId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("message_artist_fk");
+
             entity.HasOne(d => d.Mem).WithMany(p => p.Messages)
                 .HasForeignKey(d => d.MemId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -765,7 +767,7 @@ public partial class ChineseArtworkContext : DbContext
 
         modelBuilder.Entity<News>(entity =>
         {
-            entity.HasKey(e => e.NewsId).HasName("PK__news__D55D99083B268A08");
+            entity.HasKey(e => e.NewsId).HasName("PK__news__D55D990881E9C31C");
 
             entity.ToTable("news");
 
@@ -805,7 +807,7 @@ public partial class ChineseArtworkContext : DbContext
 
         modelBuilder.Entity<Poetry>(entity =>
         {
-            entity.HasKey(e => e.PoetryId).HasName("PK__poetry__0575DE22EB44ED89");
+            entity.HasKey(e => e.PoetryId).HasName("PK__poetry__0575DE220BBDC007");
 
             entity.ToTable("poetry");
 
@@ -857,7 +859,7 @@ public partial class ChineseArtworkContext : DbContext
 
         modelBuilder.Entity<Radical>(entity =>
         {
-            entity.HasKey(e => e.RadicalId).HasName("PK__radical__9014542269A45DBD");
+            entity.HasKey(e => e.RadicalId).HasName("PK__radical__90145422154A51FC");
 
             entity.ToTable("radical");
 
@@ -871,7 +873,7 @@ public partial class ChineseArtworkContext : DbContext
 
         modelBuilder.Entity<RadicalPic>(entity =>
         {
-            entity.HasKey(e => e.RadicalPicId).HasName("PK__radical___45A6F3BB57960260");
+            entity.HasKey(e => e.RadicalPicId).HasName("PK__radical___45A6F3BB735ECAFC");
 
             entity.ToTable("radical_pic");
 
@@ -921,7 +923,7 @@ public partial class ChineseArtworkContext : DbContext
 
         modelBuilder.Entity<Style>(entity =>
         {
-            entity.HasKey(e => e.StyleId).HasName("PK__style__056BC21C216F7F04");
+            entity.HasKey(e => e.StyleId).HasName("PK__style__056BC21CB16CED04");
 
             entity.ToTable("style");
 

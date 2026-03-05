@@ -38,4 +38,6 @@ public partial class Artist
     public virtual ICollection<Association> Associations { get; set; } = new List<Association>();
 
     public virtual ICollection<Authority> Authorities { get; set; } = new List<Authority>();
+
+    public virtual ICollection<Message> Messages { get; set; } = new List<Message>();
 }

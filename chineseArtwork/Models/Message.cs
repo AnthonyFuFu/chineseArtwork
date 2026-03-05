@@ -23,6 +23,8 @@ public partial class Message
 
     public string? MsgImage { get; set; }
 
+    public virtual Artist Art { get; set; } = null!;
+
     public virtual Member Mem { get; set; } = null!;
 
     public virtual ChatRoom Room { get; set; } = null!;
